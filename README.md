@@ -1,5 +1,5 @@
-# Android_homework
-Nộp bài tập môn android
+# Android
+Bài tập + Đồ án môn android
 
 Các bạn nộp bài tập vào các nhánh có tên mình
 
