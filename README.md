@@ -1,6 +1,8 @@
 # Android
 Bài tập + Đồ án môn android
 
+Bài tập ở nhánh homework - Đồ án ở nhánh Project
+
 Các bạn nộp bài tập vào các nhánh có tên mình
 
 Nguyễn Tấn Phú - N15DCAT008
