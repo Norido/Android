@@ -1,5 +1,5 @@
-# Android
-Bài tập + Đồ án môn android
+# Android_Project
+Đồ án môn android
 
 Các bạn nộp bài tập vào các nhánh có tên mình
 
