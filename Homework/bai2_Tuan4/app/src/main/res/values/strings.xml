@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">custom_listview</string>
+    <string name="straw">Strawberry</string>
+    <string name="des_straw">It is an aggregate accessory fruit</string>
+    <string name="banana">Banana</string>
+    <string name="des_banana">It is the largest herbaceous flowering plant</string>
+
+</resources>
