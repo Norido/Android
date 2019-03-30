@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">custom_listview</string>
+    <string name="pele">Pele</string>
+    <string name="des_pele">October 23 1940 (age 72)</string>
+    <string name="diego">Diego Maradona</string>
+    <string name="des_diego">October 30 1960 (age 52)</string>
+
+</resources>
