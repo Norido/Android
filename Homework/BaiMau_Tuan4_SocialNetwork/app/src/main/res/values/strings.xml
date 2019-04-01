@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">SocialNetwork</string>
-    <string name="fb">Facebook</string>
-    <string name="sk">Skype</string>
-    <string name="msn">MSN</string>
-    <string name="yh">Yahoo</string>
-    <string name="in">LinkedIn</string>
-
-</resources>
