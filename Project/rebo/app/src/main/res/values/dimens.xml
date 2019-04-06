@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textsize_label">20sp</dimen>
+    <dimen name="textsize_name">18sp</dimen>
+    <dimen name="textsize_tittle">16sp</dimen>
+    <dimen name="img_height">200dp</dimen>
+    <dimen name="img_width">130dp</dimen>
+    <dimen name="img_margin">5dp</dimen>
+
+</resources>
