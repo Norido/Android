@@ -7,4 +7,6 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="login">Đăng nhập</string>
     <string name="res">Đăng kí</string>
+    <string name="facebook_app_id">499287953938235</string>
+    <string name="fb_login_protocol_scheme">fb499287953938235</string>
 </resources>
