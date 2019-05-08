@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         setControl();
         setEvent();
         loginFaceBook();
-        loginGoogle();
 
     }
     /*public void onStart() {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         btnfb = findViewById(R.id.btnfb);
         btnImgfb = findViewById(R.id.btnImgFb);
         googleSignInButton = findViewById(R.id.btngg);
-      //  btnImgGg = findViewById(R.id.btnImgGg);
+        btnImgGg = findViewById(R.id.btnImgGg);
        /* btnfb.setReadPermissions(Arrays.asList("email","public_profile"));
         accessTokenTracker = new AccessTokenTracker() {
             // This method is invoked everytime access token changes
@@ -116,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 btnfb.performClick();
             }
         });
-     //   btnImgGg.setOnClickListener(new View.OnClickListener() {
- //           @Override
-    //        public void onClick(View v) {
-         //       googleSignInButton.performClick();
-      //      }
-  //      });
+        btnImgGg.setOnClickListener(new View.OnClickListener() {
+         @Override
+            public void onClick(View v) {
+                loginGoogle();
+            }
+        });
     }
 
     public void loginGoogle(){
@@ -129,24 +128,21 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this,gso);
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
-            }
-        });
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 101);
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //callbackManager.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
+        if (resultCode == Activity.RESULT_OK){
             switch (requestCode) {
                 case 101:
                     Intent intent = new Intent(MainActivity.this,AnimationLogin.class);
                     startActivity(intent);
                     break;
             }
+        }
+
     }
 
     public void loginFaceBook(){
