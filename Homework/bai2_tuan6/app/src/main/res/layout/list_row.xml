@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/lv_row">
+
+
+    <ImageView
+        android:id="@+id/img_show"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        />
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_show"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/img_medal"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/txt_name"
+        android:layout_toRightOf="@+id/img_show"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/medal"/>
+    <TextView
+        android:id="@+id/txt_medal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_toEndOf="@+id/img_medal"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="6dp"
+        android:textColor="@android:color/black"
+        />
+    <ImageView
+        android:id="@+id/img_club"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/txt_name"
+        android:layout_toEndOf="@+id/txt_medal"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="40dp"
+        android:src="@drawable/home"
+        />
+    <TextView
+        android:id="@+id/txt_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_toEndOf="@+id/img_club"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="6dp"
+        android:textColor="@android:color/black"
+        />
+
+</RelativeLayout>
