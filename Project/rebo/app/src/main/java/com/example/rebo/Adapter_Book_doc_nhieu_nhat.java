@@ -38,7 +38,7 @@ public class Adapter_Book_doc_nhieu_nhat extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView==null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.layout_item_moi_nhat,parent,false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_sach,parent,false);
             holder = new ViewHolder();
             holder.biaSach = (ImageView)convertView.findViewById(R.id.item_book);
             holder.tenSach = (TextView)convertView.findViewById(R.id.item_title);

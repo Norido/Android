@@ -14,7 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
@@ -43,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     //Xem tat ca
     private TextView xem_tat_ca,xem_tat_ca_2;
-
+    //sach cua tui
+    private LinearLayout layout_sach_cua_tui;
+    //sach tui thich
+    private LinearLayout layout_sach_tui_thich;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         // recycler view book horizontal
         sach_moi_nhat.add(new Book(R.drawable.comic, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach2, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
+        sach_moi_nhat.add(new Book(R.drawable.sach2, R.string.wonder_women, R.string.wonder_women));
         sach_moi_nhat.add(new Book(R.drawable.sach3, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         sach_moi_nhat.add(new Book(R.drawable.sach4, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         sach_moi_nhat.add(new Book(R.drawable.sach5, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         // doc nhieu nhat
         doc_nhieu_nhat.add(new Book(R.drawable.sach10, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach11, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
+        doc_nhieu_nhat.add(new Book(R.drawable.sach11, R.string.wonder_women, R.string.wonder_women));
         doc_nhieu_nhat.add(new Book(R.drawable.sach12, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         doc_nhieu_nhat.add(new Book(R.drawable.sach13, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         doc_nhieu_nhat.add(new Book(R.drawable.sach14, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
@@ -85,6 +90,17 @@ public class MainActivity extends AppCompatActivity {
         Adapter_doc_nhieu_nhat = new Adapter_Book_doc_nhieu_nhat(this, doc_nhieu_nhat);
         Grid_doc_nhieu_nhat = (GridView) findViewById(R.id.gridview_docnhieunhat);
         Grid_doc_nhieu_nhat.setAdapter(Adapter_doc_nhieu_nhat);
+        Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this,ActivityDetail.class);
+                Book book = doc_nhieu_nhat.get(position);
+                intent.putExtra("img",book.getBiaSach());
+                intent.putExtra("title",book.getTenSach());
+                intent.putExtra("author",book.getTacGia());
+                startActivity(intent);
+            }
+        });
 
         // Auto doi anh
 
@@ -157,6 +173,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        // Sach cua tui
+        layout_sach_cua_tui = (LinearLayout) findViewById(R.id.layout_sach_cua_tui);
+        layout_sach_cua_tui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,Sach_cua_tui.class);
+                startActivity(intent);
+            }
+        });
+        // Sach cua tui
+        layout_sach_tui_thich = (LinearLayout) findViewById(R.id.layout_sach_tui_thich);
+        layout_sach_tui_thich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,Sach_tui_thich.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

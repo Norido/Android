@@ -28,7 +28,13 @@
         <activity android:name=".ReadBook"/>
         <activity android:name=".xem_tat_ca"
             android:label="@string/sach_moi_nhat"
-            android:theme="@style/AppTheme.SliderActivity">
+            >
+        </activity>
+        <activity android:name=".Sach_cua_tui"
+            android:label="Sách của tui">
+            </activity>
+        <activity android:name=".Sach_tui_thich"
+            android:label="Sách tui thích">
         </activity>
     </application>
 

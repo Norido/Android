@@ -21,7 +21,7 @@ public class Adapter_Book extends RecyclerView.Adapter<Adapter_Book.ViewHolder> 
     }
     @Override
     public Adapter_Book.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_moi_nhat,viewGroup,false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_sach,viewGroup,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -40,8 +40,8 @@ public class Adapter_Book extends RecyclerView.Adapter<Adapter_Book.ViewHolder> 
                 Intent intent = new Intent(view.getContext(),ActivityDetail.class);
                 Book b = data.get(position);
                 intent.putExtra("img",b.getBiaSach());
-                intent.putExtra("title",b.getBiaSach());
-                intent.putExtra("author",b.getBiaSach());
+                intent.putExtra("title",b.getTenSach());
+                intent.putExtra("author",b.getTacGia());
                 view.getContext().startActivity(intent);
             }
         });

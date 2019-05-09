@@ -31,14 +31,15 @@
 
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
                 android:gravity="bottom"
                 android:padding="10dip"
                 app:centered="true"
-                app:fillColor="#DA161D"
+                app:pageColor="@android:color/white"
+                app:fillColor="@color/colorPrimary"
                 app:snap="false" />
         </RelativeLayout>
 
@@ -232,6 +233,7 @@
             <!-- Item sach cua tui -->
 
             <LinearLayout
+                android:id="@+id/layout_sach_cua_tui"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
                 android:layout_marginTop="@dimen/padding_tiny_plus_one"
@@ -257,6 +259,7 @@
             <!-- Item sach tui thich -->
 
             <LinearLayout
+                android:id="@+id/layout_sach_tui_thich"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
                 android:background="@android:color/white"

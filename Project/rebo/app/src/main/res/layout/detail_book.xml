@@ -42,7 +42,7 @@
                 android:layout_height="120dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                app:lottie_fileName="heart2.json"
+                app:lottie_fileName="heart.json"
                 app:lottie_autoPlay="false"
                 app:lottie_loop="false"
                 />

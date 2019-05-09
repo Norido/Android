@@ -66,11 +66,14 @@ public class ActivityDetail extends AppCompatActivity {
         // Nhan du lieu
         img = (ShadowImageView) findViewById(R.id.img_detail);
         name = (TextView) findViewById(R.id.name_detail);
+        author = (TextView) findViewById(R.id.author_detail);
         Intent recv_from_online = getIntent();
         img.setImageResource(recv_from_online.getIntExtra("img", 0));
-
+        name.setText(recv_from_online.getIntExtra("title",0));
+        author.setText(recv_from_online.getIntExtra("author",0));
         // chuyen sang doc sach
         read_book = (FButton) findViewById(R.id.doc_sach);
+
         read_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
