@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -44,151 +45,58 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.viksaa.sssplash.lib.activity.AwesomeSplash;
+import com.viksaa.sssplash.lib.cnst.Flags;
+import com.viksaa.sssplash.lib.model.ConfigSplash;
 
-public class MainActivity extends AppCompatActivity {
-    Button btnSignUp;
-    LoginButton btnfb;
-    ImageView btnImgfb,btnImgGg;
-    CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
-    SignInButton googleSignInButton;
-    GoogleSignInClient googleSignInClient;
+public class MainActivity extends AwesomeSplash {
     @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    public void initSplash(ConfigSplash configSplash) {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        setControl();
-        setEvent();
-        loginFaceBook();
+        /* you don't have to override every property */
+        //Customize Circular Reveal
+        configSplash.setBackgroundColor(R.color.colorPrimaryDark); //any color you want form colors.xml
+        configSplash.setAnimCircularRevealDuration(3000); //int ms
+        configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
+        configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
-    }
-    /*public void onStart() {
-        super.onStart();
-        //This starts the access token tracking
-        accessTokenTracker.startTracking();
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        useLoginInformation(accessToken);
+        //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
 
-    }
-    public void onDestroy() {
-        super.onDestroy();
-        // We stop the tracking before destroying the activity
-        accessTokenTracker.stopTracking();
-    }*/
-    public void setControl(){
-        btnSignUp = findViewById(R.id.signup);
-        btnfb = findViewById(R.id.btnfb);
-        btnImgfb = findViewById(R.id.btnImgFb);
-        googleSignInButton = findViewById(R.id.btngg);
-        btnImgGg = findViewById(R.id.btnImgGg);
-       /* btnfb.setReadPermissions(Arrays.asList("email","public_profile"));
-        accessTokenTracker = new AccessTokenTracker() {
-            // This method is invoked everytime access token changes
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                // currentAccessToken is null if the user is logged out
-                if (currentAccessToken != null) {
-                    // AccessToken is not null implies user is logged in and hence we sen the GraphRequest
-                    useLoginInformation(currentAccessToken);
-                }else{
+        //Customize Logo
+        configSplash.setLogoSplash(R.drawable.rebo_round); //or any other drawable
+        configSplash.setAnimLogoSplashDuration(3000); //int ms
+        configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 
-                }
 
-            }
-        };*/
-    }
-    public void setEvent(){
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,AnimationLogin.class);
-                startActivity(intent);
-            }
-        });
-        btnImgfb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnfb.performClick();
-            }
-        });
-        btnImgGg.setOnClickListener(new View.OnClickListener() {
-         @Override
-            public void onClick(View v) {
-                loginGoogle();
-            }
-        });
-    }
+        //Customize Path
+        // configSplash.setPathSplash(SyncStateContract.Constants.DROID_LOGO); //set path String
+        configSplash.setOriginalHeight(400); //in relation to your svg (path) resource
+        configSplash.setOriginalWidth(400); //in relation to your svg (path) resource
+        configSplash.setAnimPathStrokeDrawingDuration(3000);
+        configSplash.setPathSplashStrokeSize(3); //I advise value be <5
+        configSplash.setPathSplashStrokeColor(R.color.colorAccent); //any color you want form colors.xml
+        configSplash.setAnimPathFillingDuration(3000);
+        configSplash.setPathSplashFillColor(R.color.colorPrimaryDark); //path object filling color
 
-    public void loginGoogle(){
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this,gso);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 101);
-    }
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
-            switch (requestCode) {
-                case 101:
-                    Intent intent = new Intent(MainActivity.this,AnimationLogin.class);
-                    startActivity(intent);
-                    break;
-            }
-        }
+
+        //Customize Title
+        configSplash.setTitleSplash("Rebo"); //change your app name here
+        configSplash.setTitleTextColor(R.color.white);
+        configSplash.setTitleTextSize(30f); //float value
+        configSplash.setAnimTitleDuration(3000);
+        configSplash.setAnimTitleTechnique(Techniques.FlipInX);
+        configSplash.setTitleFont("fonts/Pacifico.ttf"); //provide string to your font located in assets/fonts/
 
     }
 
-    public void loginFaceBook(){
-        callbackManager = CallbackManager.Factory.create();
-        btnfb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // Retrieving access token using the LoginResult
-                Intent intent = new Intent(MainActivity.this,AnimationLogin.class);
-                startActivity(intent);
-            }
-            @Override
-            public void onCancel() {
-            }
-            @Override
-            public void onError(FacebookException error) {
-            }
-        });
+    @Override
+    public void animationsFinished() {
+        Intent intent = new Intent(MainActivity.this,Login.class);
+        startActivity(intent);
+        //transit to another activity here
+        //or do whatever you want
     }
-    /*private void useLoginInformation(AccessToken accessToken) {
-        /*
-         Creating the GraphRequest to fetch user details
-         1st Param - AccessToken
-         2nd Param - Callback (which will be invoked once the request is successful)
-
-        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-            //OnCompleted is invoked once the GraphRequest is successful
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                try {
-                    String name = object.getString("name");
-                    String email = object.getString("email");
-                    String image = object.getJSONObject("picture").getJSONObject("data").getString("url");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        // We set parameters to the GraphRequest using a Bundle.
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,picture.width(200)");
-        request.setParameters(parameters);
-        // Initiate the GraphRequest
-        request.executeAsync();
-    }*/
 
 }
 
