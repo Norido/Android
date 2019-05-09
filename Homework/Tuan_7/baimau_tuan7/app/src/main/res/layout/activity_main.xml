@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F"
+        android:gravity="center"
+        android:text="Quản Lí Môn Học"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_maMH"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Mã MH"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_maMH"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mã MH"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_tenMH"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Tên MH"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_tenMH"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên MH"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_soTiet"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Số Tiết"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_soTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Số Tiết"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="INSERT" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="DELETE" />
+
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="LOAD" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EXIT" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_dsmh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F"
+        android:text="DANH SÁCH MÔN HỌC"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
+
+    <ListView
+        android:id="@+id/listview_dsmh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>
