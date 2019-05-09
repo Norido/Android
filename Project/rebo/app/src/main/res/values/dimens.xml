@@ -19,4 +19,21 @@
     <dimen name="navigation_header_height">160dp</dimen>
     <dimen name="navigation_item_height">48dp</dimen>
     <dimen name="navigation_item_icon_size">24dp</dimen>
+    <!-- detail_book Activity components -->
+    <dimen name="book_header_height">300dp</dimen>
+    <dimen name="book_height">220dp</dimen>
+    <dimen name="book_width">165dp</dimen>
+    <dimen name="detail_padding">150dp</dimen>
+
+    <!-- Online -->
+    <dimen name="header_online_height">160dp</dimen>
+    <dimen name="textsize_name">20sp</dimen>
+    <dimen name="textsize_tittle">15sp</dimen>
+    <dimen name="textsize_label">18sp</dimen>
+
+    <!-- item book horizontal - sach moi nhat -->
+    <dimen name="card_height">200dp</dimen>
+    <dimen name="card_width">110dp</dimen>
+    <dimen name="image_height">140dp</dimen>
+    <dimen name="text_size">14sp</dimen>
 </resources>

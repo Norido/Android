@@ -8,24 +8,184 @@
 
     <!-- Content -->
 
-    <RelativeLayout
-        android:id="@+id/activity_main_content"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimens/activity_vertical_margin"
-        android:paddingLeft="@dimens/activity_horizontal_margin"
-        android:paddingRight="@dimens/activity_horizontal_margin"
-        android:paddingTop="@dimens/activity_vertical_margin"
+        android:layout_height="wrap_content"
+
+        android:background="#FFFFFF"
+        android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/activity_main_tv_empty"
-            android:layout_centerInParent="true"
-            android:text="@strings/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/header_online"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_header_height"
+            >
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentTop="true" />
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom"
+                android:padding="10dip"
+                app:centered="true"
+                app:fillColor="#DA161D"
+                app:snap="false" />
+        </RelativeLayout>
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="BỐ GIÀ, MARIO PUZO"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/textsize_name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:gravity="center"
+                        android:text="Người đàn ông vĩ đại không sinh ra đã tự vĩ đại mà họ trường thành một cách vĩ đại"
+                        android:textSize="@dimen/textsize_tittle" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_small"
+                    android:background="@color/view" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/navigation_item_height"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        <TextView
+                            android:id="@+id/tv_sachmoinhat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/sach_moi_nhat"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/textsize_label"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_seeall1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/xem_tat_ca"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/textsize_label" />
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/padding_small"
+                    android:background="@color/view" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/navigation_item_height"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        <TextView
+                            android:id="@+id/tv_docnhieunhat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/doc_nhieu_nhat"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/textsize_label" />
+
+                        <TextView
+                            android:id="@+id/tv_seeall2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/xem_tat_ca"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/textsize_label" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="fill_horizontal"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        <GridView
+                            android:id="@+id/gridview_docnhieunhat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="600dp"
+                            android:columnWidth="@dimen/book_width"
+                            android:gravity="center"
+                            android:horizontalSpacing="4dp"
+                            android:numColumns="3"
+                            android:scrollbars="none"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="4dp">
+
+                        </GridView>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
     <!-- Left Menu -->
 
     <android.support.design.widget.NavigationView
@@ -48,11 +208,10 @@
                 android:background="@drawable/bkg_user"
                 android:gravity="bottom"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                >
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
 
                 <ImageView
                     android:id="@+id/activity_main_imv_avatar"
@@ -66,8 +225,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/activity_vertical_margin"
-                    android:text="@string/user"
-                    />
+                    android:text="@string/user" />
 
             </LinearLayout>
 
@@ -86,12 +244,12 @@
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
                     android:layout_height="@dimen/navigation_item_icon_size"
-                    android:src="@drawable/sachcuatui" />
+                    android:src="@drawable/my_book" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:layout_marginStart="@dimen/padding_extra_extra_large"
                     android:text="@string/sachcuatui" />
 
             </LinearLayout>
@@ -110,12 +268,12 @@
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
                     android:layout_height="@dimen/navigation_item_icon_size"
-                    android:src="@drawable/sachtuithich" />
+                    android:src="@drawable/love_book" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_extra_extra_large"
+                    android:layout_marginStart="@dimen/padding_extra_extra_large"
                     android:text="@string/sachtuithich" />
 
             </LinearLayout>
