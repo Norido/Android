@@ -1,0 +1,7 @@
+#Thu May 09 21:30:11 ICT 2019
+base.0=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out

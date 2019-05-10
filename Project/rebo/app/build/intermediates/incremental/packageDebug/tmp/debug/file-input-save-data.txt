@@ -1,0 +1,19 @@
+#Internal package file, do not edit.
+#Wed May 08 21:49:32 ICT 2019
+1.base=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+2.path=classes.dex
+0.baseType=DIRECTORY
+3.baseType=DIRECTORY
+2.base=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
+3.set=ASSET
+2.set=DEX
+1.baseType=DIRECTORY
+3.path=fonts/Pacifico.ttf
+count=4
+1.set=DEX
+0.path=fonts/Roboto.ttf
+3.base=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+0.set=ASSET
+0.base=D\:\\Downloads\\Documents\\AndroidStudioProjects\\sua_o_day\\Android\\Project\\rebo\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+2.baseType=DIRECTORY
+1.path=classes.dex
