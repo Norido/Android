@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "364390729167",
+    "firebase_url": "https://rebo-thebookapp.firebaseio.com",
+    "project_id": "rebo-thebookapp",
+    "storage_bucket": "rebo-thebookapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364390729167:android:57c281120f5fe229",
+        "android_client_info": {
+          "package_name": "com.example.rebo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364390729167-5vnimhoo77dt3o51ulij775s6haahtbv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rebo",
+            "certificate_hash": "0f8c4b61426059408de8be340584401bb3aed7b5"
+          }
+        },
+        {
+          "client_id": "364390729167-h9ks0uap1dc07aktl21cnk6bn3ev3bt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjBF9Xmay79Ew2sFgnisqgZY_T3Dz8pHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364390729167-h9ks0uap1dc07aktl21cnk6bn3ev3bt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

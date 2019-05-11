@@ -13,6 +13,7 @@
         android:layout_height="90dp"
         android:src="@drawable/rebo" />
         <EditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
@@ -21,6 +22,7 @@
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="10dp"
             android:hint="Email"
+
             />
 
 
