@@ -40,7 +40,6 @@ public class Login extends AppCompatActivity {
     LoginButton btnfb;
     ImageView btnImgfb,btnImgGg;
     CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
     SignInButton googleSignInButton;
     GoogleSignInClient googleSignInClient;
     String TAG = "Error:" ;
@@ -60,7 +59,7 @@ public class Login extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        mAuth.addAuthStateListener(mAuthListner);
+
     }
     public void setControl(){
         btnSignUp = findViewById(R.id.signup);
