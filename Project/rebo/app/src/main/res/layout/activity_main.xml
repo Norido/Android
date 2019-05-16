@@ -58,24 +58,27 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center"
-                        android:text="BỐ GIÀ, MARIO PUZO"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/textsize_name"
-                        android:textStyle="bold" />
-
-                    <TextView
+                        android:id="@+id/header_online_noidung"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
                         android:gravity="center"
                         android:text="Người đàn ông vĩ đại không sinh ra đã tự vĩ đại mà họ trường thành một cách vĩ đại"
-                        android:textSize="@dimen/textsize_tittle" />
+                        android:textSize="@dimen/textsize_tittle"
+                        android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/header_online_tacgia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/padding_extra_large"
+                        android:gravity="right"
+                        android:text="Sưu tầm"
+
+                        android:textSize="@dimen/textsize_name"
+                        android:textStyle="italic" />
                 </LinearLayout>
 
                 <View

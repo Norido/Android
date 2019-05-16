@@ -49,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
     private GridView Grid_doc_nhieu_nhat;
     // header
     private static ViewPager mPager;
-    private static int currentPage = 0;
-    private static int NUM_PAGES = 0;
+    private static int currentPage = 0,currentWord = 0;
+    private static int NUM_PAGES = 0, NUM_WORDS = 0;
     private ArrayList<Book> header = new ArrayList<>();
     private Sliding_Image sliding_image;
     private CirclePageIndicator indicator;
+    private TextView noiDung,tacGia;
 
     //Xem tat ca
     private TextView xem_tat_ca, xem_tat_ca_2;
@@ -86,28 +87,56 @@ public class MainActivity extends AppCompatActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         sliding_image = new Sliding_Image(MainActivity.this, header);
         mPager.setAdapter(sliding_image);
-        adv.addChildEventListener(new ChildEventListener() {
+        adv.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                header.add(dataSnapshot.getValue(Book.class));
-                sliding_image.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                NUM_PAGES = (int) dataSnapshot.getChildrenCount();
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    header.add(data.getValue(Book.class));
+                    sliding_image.notifyDataSetChanged();
+                }
+                    //lay kich thuoc
+                    final float density = getResources().getDisplayMetrics().density;
+                    //Set circle indicator radius
+                    indicator.setRadius(5 * density);
+                    // Auto start of viewpager
+                    final Handler handler = new Handler();
+                    final Runnable Update = new Runnable() {
+                        public void run() {
+                            if (currentPage == NUM_PAGES) {
+                                currentPage = 0;
+                            }
+                            mPager.setCurrentItem(currentPage, true);
+                            currentPage++;
+                        }
+                    };
+                    Timer swipeTimer = new Timer();
+                    swipeTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            handler.post(Update);
+                        }
+                    }, 3000, 3000);
+                    // Pager listener over indicator
+                    indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+                        @Override
+                        public void onPageSelected(int position) {
+                            currentPage = position;
+
+                        }
+
+                        @Override
+                        public void onPageScrolled(int pos, float arg1, int arg2) {
+
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int pos) {
+
+                        }
+                    });
             }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -115,48 +144,45 @@ public class MainActivity extends AppCompatActivity {
         });
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
-        //lay kich thuoc
-        final float density = getResources().getDisplayMetrics().density;
-        //Set circle indicator radius
-        indicator.setRadius(5 * density);
 
-        NUM_PAGES = header.size();
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
+        // tap hop nhung cau noi hay trong ngay
+        noiDung = (TextView) findViewById(R.id.header_online_noidung);
+        tacGia = (TextView) findViewById(R.id.header_online_tacgia);
+        adv.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                NUM_WORDS = (int) dataSnapshot.getChildrenCount();
+                final ArrayList<Book> words = new ArrayList<>();
+                for (DataSnapshot data: dataSnapshot.getChildren()){
+                    words.add(data.getValue(Book.class));
                 }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-
-            }
-
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-
+                final Handler handler = new Handler();
+                final Runnable Update = new Runnable() {
+                    public void run() {
+                        if (currentWord == NUM_WORDS) {
+                            currentWord = 0;
+                        }
+                        noiDung.setText(words.get(currentWord).getNoiDung());
+                        tacGia.setText(words.get(currentWord).getTacGia());
+                        currentWord++;
+                    }
+                };
+                Timer swipeTimer = new Timer();
+                swipeTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(Update);
+                    }
+                }, 3000, 5000);
             }
 
             @Override
-            public void onPageScrollStateChanged(int pos) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
 
         // recycler view book horizontal sach moi nhat
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_book);

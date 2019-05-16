@@ -28,7 +28,7 @@
 
     <!-- Online -->
     <dimen name="header_online_height">160dp</dimen>
-    <dimen name="textsize_name">20sp</dimen>
+    <dimen name="textsize_name">13sp</dimen>
     <dimen name="textsize_tittle">15sp</dimen>
     <dimen name="textsize_label">18sp</dimen>
 
