@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new Adapter_Book_moi_nhat(sach_moi_nhat);
         recyclerView.setAdapter(recyclerAdapter);
 
-        book.addChildEventListener(new ChildEventListener() {
+        book.limitToFirst(5).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 sach_moi_nhat.add(dataSnapshot.getValue(Book.class));
@@ -232,9 +232,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ActivityDetail.class);
                 Book book = doc_nhieu_nhat.get(position);
-                intent.putExtra("img", book.getBiaSach());
-                intent.putExtra("title", book.getTenSach());
-                intent.putExtra("author", book.getTacGia());
+                intent.putExtra("tenSach", book.getTenSach());
                 startActivity(intent);
             }
         });

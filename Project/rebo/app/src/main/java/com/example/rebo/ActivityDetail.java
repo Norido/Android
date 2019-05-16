@@ -2,33 +2,37 @@ package com.example.rebo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.TransitionManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.LottieDrawable;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.r0adkll.slidr.Slidr;
 
 import com.squareup.picasso.Picasso;
-import com.yinglan.shadowimageview.ShadowImageView;
+
 import info.hoang8f.widget.FButton;
 
 public class ActivityDetail extends AppCompatActivity {
     private ExpandableTextView expandableTextView;
-    private TextView name, author;
+    private TextView name, author,theloai,nhaxuatban,ngayxuanban;
     private FButton read_book,tai_sach;
     //private ImageView img;
-    private ShadowImageView img;
+    private ImageView img;
     private LottieAnimationView lottieAnimationView;
+    //firebase
+    private DatabaseReference databaseReference,book;
+    private FirebaseDatabase firebaseDatabase;
+    private Book b;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +40,56 @@ public class ActivityDetail extends AppCompatActivity {
         // slide activity
         Slidr.attach(this);
 
+        // Nhan du lieu
         //xem them
         expandableTextView = (ExpandableTextView) findViewById(R.id.expandable_text_view);
-        expandableTextView.setText("Naruto shippuuden là một tác phẩm của Kishimoto Masashi. Nó cũng nói về Naruto, nhưng là 2 năm sau,sau khi cậu bé cùng sư phụ Jiraiya của mình đi tập luyện xa trở về làng Lá (phần sau của Naruto). Phần hai tiếp tục câu chuyện về cậu bé Naruto sau 3 năm tu luyện cùng Jiraiya nay đã trở về làng. Cậu và những người bạn lại tiếp tục lên đường làm nhiệm vụ, đồng thời cũng tìm cách để đưa Sasuke trở về. Madara hồi sinh, cùng với kế hoạch Nguyệt Nhãn quyết nhấn chìm thế giới vào ảo mộng. Đại chiến shinobi lần thứ tư nổ ra. Toàn thế giới nhẫn giả đã kết thành liên minh, cùng chung chí hướng dập tắt âm mưu của Madara và đồng bọn. Liệu đây có phải là cuộc chiến cuối cùng?");
+        img = (ImageView) findViewById(R.id.img_detail);
+        name = (TextView) findViewById(R.id.name_detail);
+        author = (TextView) findViewById(R.id.author_detail);
+        theloai = (TextView) findViewById(R.id.the_loai);
+        nhaxuatban = (TextView) findViewById(R.id.nha_xuat_ban);
+        ngayxuanban = (TextView) findViewById(R.id.ngay_xuat_ban);
+        Intent recv_from_online = getIntent();
+        String tenSach = recv_from_online.getStringExtra("tenSach");
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+        book = databaseReference.child("Books");
+
+       book.orderByChild("tenSach").equalTo(tenSach).addChildEventListener(new ChildEventListener() {
+           @Override
+           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               b = dataSnapshot.getValue(Book.class);
+               name.setText(b.getTenSach());
+               author.setText(b.getTacGia());
+               Picasso.get().load(b.getBiaSach()).into(img);
+               expandableTextView.setText(b.getNoiDung());
+               theloai.setText(b.getTheLoai());
+               nhaxuatban.setText(b.getNhaXuatBan());
+               ngayxuanban.setText(b.getNgayXuatBan());
+
+           }
+
+           @Override
+           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+           }
+
+           @Override
+           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+           }
+
+           @Override
+           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+           }
+       });
 
         // LIKE
         lottieAnimationView = (LottieAnimationView) findViewById(R.id.animation_view);
@@ -62,15 +113,6 @@ public class ActivityDetail extends AppCompatActivity {
         });
 
 
-        // Nhan du lieu
-//        img = (ImageView) findViewById(R.id.img_detail);
-        name = (TextView) findViewById(R.id.name_detail);
-        author = (TextView) findViewById(R.id.author_detail);
-        Intent recv_from_online = getIntent();
-//        Picasso.get().load(recv_from_online.getStringExtra("img")).into(img);
-        name.setText(recv_from_online.getStringExtra("title"));
-        author.setText(recv_from_online.getStringExtra("author"));
-
         // chuyen sang doc sach
         read_book = (FButton) findViewById(R.id.doc_sach);
         read_book.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +120,7 @@ public class ActivityDetail extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(ActivityDetail.this, ReadBook.class);
+                intent.putExtra("tenSach",name.getText());
                 startActivity(intent);
             }
         });

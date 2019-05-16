@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class Adapter_Book_moi_nhat extends RecyclerView.Adapter<Adapter_Book_moi_nhat.ViewHolder> {
 
     private ArrayList<Book> data;
-
     public Adapter_Book_moi_nhat(ArrayList<Book> data) {
         this.data = data;
     }
@@ -41,9 +40,8 @@ public class Adapter_Book_moi_nhat extends RecyclerView.Adapter<Adapter_Book_moi
 
                 Intent intent = new Intent(view.getContext(),ActivityDetail.class);
                 Book b = data.get(position);
-                intent.putExtra("img",b.getBiaSach());
-                intent.putExtra("title",b.getTenSach());
-                intent.putExtra("author",b.getTacGia());
+                intent.putExtra("tenSach",b.getTenSach());
+//                intent.putExtra("ngayXuatBan",b.getNgayXuatBan());
                 view.getContext().startActivity(intent);
             }
         });

@@ -1,5 +1,7 @@
 package com.example.rebo;
 
+import java.util.HashMap;
+
 // Tạo đối tượng Sách để add vào List View
 public class Book {
     private String biaSach;
@@ -9,7 +11,7 @@ public class Book {
     private String nhaXuatBan;
     private String noiDung;
     private String theLoai;
-
+    private String soLanDoc;
 
     public Book(){
 
@@ -68,5 +70,13 @@ public class Book {
 
     public void setTheLoai(String theLoai) {
         this.theLoai = theLoai;
+    }
+
+    public String getSoLanDoc() {
+        return soLanDoc;
+    }
+
+    public void setSoLanDoc(String soLanDoc) {
+        this.soLanDoc = soLanDoc;
     }
 }
