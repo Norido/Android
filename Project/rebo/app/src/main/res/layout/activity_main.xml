@@ -31,13 +31,12 @@
 
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:gravity="bottom"
                 android:padding="10dip"
-                app:centered="true"
                 app:pageColor="@android:color/white"
                 app:fillColor="@color/colorPrimary"
                 app:snap="false" />

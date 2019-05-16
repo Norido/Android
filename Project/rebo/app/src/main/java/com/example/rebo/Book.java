@@ -14,14 +14,6 @@ public class Book {
     public Book(){
 
     }
-    public Book(String biaSach, String tenSach, String tacGia) {
-        this.biaSach = biaSach;
-        this.tenSach = tenSach;
-        this.tacGia = tacGia;
-    }
-    public Book(String biaSach){
-        this.biaSach = biaSach;
-    }
     public String getBiaSach() {
         return biaSach;
     }

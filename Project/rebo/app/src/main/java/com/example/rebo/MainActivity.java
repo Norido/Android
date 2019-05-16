@@ -82,7 +82,83 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
-        // recycler view book horizontal
+        // Auto doi anh
+        mPager = (ViewPager) findViewById(R.id.pager);
+        sliding_image = new Sliding_Image(MainActivity.this, header);
+        mPager.setAdapter(sliding_image);
+        adv.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                header.add(dataSnapshot.getValue(Book.class));
+                sliding_image.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
+        //lay kich thuoc
+        final float density = getResources().getDisplayMetrics().density;
+        //Set circle indicator radius
+        indicator.setRadius(5 * density);
+
+        NUM_PAGES = header.size();
+        // Auto start of viewpager
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == NUM_PAGES) {
+                    currentPage = 0;
+                }
+                mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 3000, 3000);
+        // Pager listener over indicator
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+
+            }
+
+            @Override
+            public void onPageScrolled(int pos, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int pos) {
+
+            }
+        });
+
+        // recycler view book horizontal sach moi nhat
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_book);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -163,68 +239,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Auto doi anh
-        adv.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    header.add(dataSnapshot.getValue(Book.class));
-                    sliding_image.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        mPager = (ViewPager) findViewById(R.id.pager);
-        sliding_image = new Sliding_Image(MainActivity.this, header);
-        mPager.setAdapter(sliding_image);
-        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-        //lay kich thuoc
-        final float density = getResources().getDisplayMetrics().density;
-        //Set circle indicator radius
-        indicator.setRadius(5 * density);
-
-        NUM_PAGES = header.size();
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-
-            }
-
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-
-            }
-        });
-
-//        initsliding(indicator);
         //Xem tat ca sach moi nhatt
         xem_tat_ca = (TextView) findViewById(R.id.tv_seeall1);
         xem_tat_ca.setOnClickListener(new View.OnClickListener() {
@@ -297,49 +311,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public void initsliding(CirclePageIndicator indicator){
-//        //lay kich thuoc
-//        final float density = getResources().getDisplayMetrics().density;
-//        //Set circle indicator radius
-//        indicator.setRadius(5 * density);
-//
-//        NUM_PAGES = header.size();
-//        // Auto start of viewpager
-//        final Handler handler = new Handler();
-//        final Runnable Update = new Runnable() {
-//            public void run() {
-//                if (currentPage == NUM_PAGES) {
-//                    currentPage = 0;
-//                }
-//                mPager.setCurrentItem(currentPage++, true);
-//            }
-//        };
-//        Timer swipeTimer = new Timer();
-//        swipeTimer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, 3000, 3000);
-//        // Pager listener over indicator
-//        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                currentPage = position;
-//
-//            }
-//
-//            @Override
-//            public void onPageScrolled(int pos, float arg1, int arg2) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int pos) {
-//
-//            }
-//        });
-//    }
 }
 
