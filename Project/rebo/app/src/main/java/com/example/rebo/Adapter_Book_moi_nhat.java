@@ -9,29 +9,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 // Tạo adapter gắn các sách vào list view
-public class Adapter_Book extends RecyclerView.Adapter<Adapter_Book.ViewHolder> {
+public class Adapter_Book_moi_nhat extends RecyclerView.Adapter<Adapter_Book_moi_nhat.ViewHolder> {
 
     private ArrayList<Book> data;
 
-    public Adapter_Book(ArrayList<Book> data) {
+    public Adapter_Book_moi_nhat(ArrayList<Book> data) {
         this.data = data;
     }
     @Override
-    public Adapter_Book.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public Adapter_Book_moi_nhat.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_sach,viewGroup,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final Adapter_Book.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final Adapter_Book_moi_nhat.ViewHolder viewHolder, int position) {
         Book book = data.get(position);
         viewHolder.title.setText(book.getTenSach());
         viewHolder.author.setText(book.getTacGia());
-        viewHolder.img.setImageResource(book.getBiaSach());
+        Picasso.get().load(book.getBiaSach()).into(viewHolder.img);
         // set event listen cho no khi duoc goi
         viewHolder.setItemClickListener(new ItemClickListener() {
             @Override

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.rebo">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/rebo"
@@ -12,8 +13,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon"
         >
-        <activity android:name=".MainActivity"
-            android:label="Online">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,6 @@
             android:label="Chi tiet sach"
             android:theme="@style/AppTheme.SliderActivity">
         </activity>
-        <activity android:name=".ReadComic"/>
         <activity android:name=".ReadBook"/>
         <activity android:name=".xem_tat_ca"
             android:label="@string/sach_moi_nhat"

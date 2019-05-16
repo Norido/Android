@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -51,7 +53,7 @@ public class Adapter_Book_doc_nhieu_nhat extends BaseAdapter {
         }
 
         Book item = this.listSach.get(position);
-        holder.biaSach.setImageResource(item.getBiaSach());
+        Picasso.get().load(item.getBiaSach()).into(holder.biaSach);
         holder.tenSach.setText(item.getTenSach());
         holder.tacGia.setText(item.getTacGia());
         return convertView;

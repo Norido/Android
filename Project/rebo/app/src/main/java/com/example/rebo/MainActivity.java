@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +20,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.viewpagerindicator.CirclePageIndicator;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,18 +52,30 @@ public class MainActivity extends AppCompatActivity {
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private ArrayList<Book> header = new ArrayList<>();
+    private Sliding_Image sliding_image;
+    private CirclePageIndicator indicator;
 
     //Xem tat ca
-    private TextView xem_tat_ca,xem_tat_ca_2;
+    private TextView xem_tat_ca, xem_tat_ca_2;
     //sach cua tui
     private LinearLayout layout_sach_cua_tui;
     //sach tui thich
     private LinearLayout layout_sach_tui_thich;
+    //firebase database
+    private DatabaseReference databaseReference,book,adv;
+    private FirebaseDatabase firebaseDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // database
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+        book = databaseReference.child("Books");
+        adv = databaseReference.child("Adv");
         // Drawable Navigation
+        getSupportActionBar().setTitle("Online");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer);
@@ -61,63 +83,110 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle);
 
         // recycler view book horizontal
-        sach_moi_nhat.add(new Book(R.drawable.comic, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach2, R.string.wonder_women, R.string.wonder_women));
-        sach_moi_nhat.add(new Book(R.drawable.sach3, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach4, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach5, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach6, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach7, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach8, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        sach_moi_nhat.add(new Book(R.drawable.sach9, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_book);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new Adapter_Book(sach_moi_nhat);
+        recyclerAdapter = new Adapter_Book_moi_nhat(sach_moi_nhat);
         recyclerView.setAdapter(recyclerAdapter);
 
+        book.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                sach_moi_nhat.add(dataSnapshot.getValue(Book.class));
+                recyclerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         // doc nhieu nhat
-        doc_nhieu_nhat.add(new Book(R.drawable.sach10, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach11, R.string.wonder_women, R.string.wonder_women));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach12, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach13, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach14, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach15, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach16, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach17, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
-        doc_nhieu_nhat.add(new Book(R.drawable.sach18, R.string.naruto_shippuuden, R.string.kishimoto_masashi));
         Adapter_doc_nhieu_nhat = new Adapter_Book_doc_nhieu_nhat(this, doc_nhieu_nhat);
         Grid_doc_nhieu_nhat = (GridView) findViewById(R.id.gridview_docnhieunhat);
         Grid_doc_nhieu_nhat.setAdapter(Adapter_doc_nhieu_nhat);
+        book.orderByChild("soLanDoc").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                doc_nhieu_nhat.add(dataSnapshot.getValue(Book.class));
+                Adapter_doc_nhieu_nhat.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this,ActivityDetail.class);
+                Intent intent = new Intent(MainActivity.this, ActivityDetail.class);
                 Book book = doc_nhieu_nhat.get(position);
-                intent.putExtra("img",book.getBiaSach());
-                intent.putExtra("title",book.getTenSach());
-                intent.putExtra("author",book.getTacGia());
+                intent.putExtra("img", book.getBiaSach());
+                intent.putExtra("title", book.getTenSach());
+                intent.putExtra("author", book.getTacGia());
                 startActivity(intent);
             }
         });
 
         // Auto doi anh
+        adv.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    header.add(dataSnapshot.getValue(Book.class));
+                    sliding_image.notifyDataSetChanged();
+            }
 
-        header.add(new Book(R.drawable.img_slide1));
-        header.add(new Book(R.drawable.img_slide2));
-        header.add(new Book(R.drawable.img_slide3));
-        header.add(new Book(R.drawable.img_slide4));
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new Sliding_Image(MainActivity.this,header));
-        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        sliding_image = new Sliding_Image(MainActivity.this, header);
+        mPager.setAdapter(sliding_image);
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
         //lay kich thuoc
         final float density = getResources().getDisplayMetrics().density;
         //Set circle indicator radius
         indicator.setRadius(5 * density);
 
-        NUM_PAGES =header.size();
+        NUM_PAGES = header.size();
         // Auto start of viewpager
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
@@ -154,12 +223,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+//        initsliding(indicator);
         //Xem tat ca sach moi nhatt
         xem_tat_ca = (TextView) findViewById(R.id.tv_seeall1);
         xem_tat_ca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,xem_tat_ca.class);
+                Intent intent = new Intent(MainActivity.this, xem_tat_ca.class);
+                intent.putExtra("xem_tat_ca","sach_moi_nhat");
                 startActivity(intent);
             }
         });
@@ -169,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
         xem_tat_ca_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,xem_tat_ca.class);
+                Intent intent = new Intent(MainActivity.this, xem_tat_ca.class);
+                intent.putExtra("xem_tat_ca","doc_nhieu_nhat");
                 startActivity(intent);
             }
         });
@@ -180,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         layout_sach_cua_tui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Sach_cua_tui.class);
+                Intent intent = new Intent(MainActivity.this, Sach_cua_tui.class);
                 startActivity(intent);
             }
         });
@@ -189,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         layout_sach_tui_thich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Sach_tui_thich.class);
+                Intent intent = new Intent(MainActivity.this, Sach_tui_thich.class);
                 startActivity(intent);
             }
         });
@@ -224,5 +297,49 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    public void initsliding(CirclePageIndicator indicator){
+//        //lay kich thuoc
+//        final float density = getResources().getDisplayMetrics().density;
+//        //Set circle indicator radius
+//        indicator.setRadius(5 * density);
+//
+//        NUM_PAGES = header.size();
+//        // Auto start of viewpager
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                if (currentPage == NUM_PAGES) {
+//                    currentPage = 0;
+//                }
+//                mPager.setCurrentItem(currentPage++, true);
+//            }
+//        };
+//        Timer swipeTimer = new Timer();
+//        swipeTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, 3000, 3000);
+//        // Pager listener over indicator
+//        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                currentPage = position;
+//
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int pos, float arg1, int arg2) {
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int pos) {
+//
+//            }
+//        });
+//    }
 }
 

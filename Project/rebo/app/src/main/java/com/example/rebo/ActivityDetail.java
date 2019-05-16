@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,18 +15,19 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
 import com.airbnb.lottie.LottieDrawable;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.r0adkll.slidr.Slidr;
 
+import com.squareup.picasso.Picasso;
 import com.yinglan.shadowimageview.ShadowImageView;
 import info.hoang8f.widget.FButton;
 
 public class ActivityDetail extends AppCompatActivity {
-    private TextView text, xemthem, name, author;
+    private ExpandableTextView expandableTextView;
+    private TextView name, author;
     private FButton read_book,tai_sach;
     //private ImageView img;
     private ShadowImageView img;
-    private ViewGroup transitionsContainer;
-    private LinearLayout layout_doc_sach, layout_chi_tiet;
     private LottieAnimationView lottieAnimationView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,12 +36,9 @@ public class ActivityDetail extends AppCompatActivity {
         // slide activity
         Slidr.attach(this);
 
-        //khoi tao gan ID
-        transitionsContainer = (ViewGroup) findViewById(R.id.transition_container);
-        text = (TextView) transitionsContainer.findViewById(R.id.title_detail);
-        xemthem = (TextView) transitionsContainer.findViewById(R.id.txt_xemthem);
-        layout_doc_sach = (LinearLayout) transitionsContainer.findViewById(R.id.layout_doc_sach);
-        layout_chi_tiet = (LinearLayout) transitionsContainer.findViewById(R.id.layout_chi_tiet);
+        //xem them
+        expandableTextView = (ExpandableTextView) findViewById(R.id.expandable_text_view);
+        expandableTextView.setText("Naruto shippuuden là một tác phẩm của Kishimoto Masashi. Nó cũng nói về Naruto, nhưng là 2 năm sau,sau khi cậu bé cùng sư phụ Jiraiya của mình đi tập luyện xa trở về làng Lá (phần sau của Naruto). Phần hai tiếp tục câu chuyện về cậu bé Naruto sau 3 năm tu luyện cùng Jiraiya nay đã trở về làng. Cậu và những người bạn lại tiếp tục lên đường làm nhiệm vụ, đồng thời cũng tìm cách để đưa Sasuke trở về. Madara hồi sinh, cùng với kế hoạch Nguyệt Nhãn quyết nhấn chìm thế giới vào ảo mộng. Đại chiến shinobi lần thứ tư nổ ra. Toàn thế giới nhẫn giả đã kết thành liên minh, cùng chung chí hướng dập tắt âm mưu của Madara và đồng bọn. Liệu đây có phải là cuộc chiến cuối cùng?");
 
         // LIKE
         lottieAnimationView = (LottieAnimationView) findViewById(R.id.animation_view);
@@ -64,16 +63,16 @@ public class ActivityDetail extends AppCompatActivity {
 
 
         // Nhan du lieu
-        img = (ShadowImageView) findViewById(R.id.img_detail);
+//        img = (ImageView) findViewById(R.id.img_detail);
         name = (TextView) findViewById(R.id.name_detail);
         author = (TextView) findViewById(R.id.author_detail);
         Intent recv_from_online = getIntent();
-        img.setImageResource(recv_from_online.getIntExtra("img", 0));
-        name.setText(recv_from_online.getIntExtra("title",0));
-        author.setText(recv_from_online.getIntExtra("author",0));
+//        Picasso.get().load(recv_from_online.getStringExtra("img")).into(img);
+        name.setText(recv_from_online.getStringExtra("title"));
+        author.setText(recv_from_online.getStringExtra("author"));
+
         // chuyen sang doc sach
         read_book = (FButton) findViewById(R.id.doc_sach);
-
         read_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,28 +81,9 @@ public class ActivityDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // tai sach
         tai_sach = (FButton) findViewById(R.id.tai_sach);
-        xemthem.setOnClickListener(new View.OnClickListener() {
-
-            boolean visible;
-
-            @Override
-            public void onClick(View v) {
-                TransitionManager.beginDelayedTransition(transitionsContainer);
-                visible = !visible;
-                if (visible) {
-                    text.setText(R.string.detail_naruto_long);
-                    text.setVisibility(View.VISIBLE);
-                } else {
-                    text.setText(R.string.detail_naruto);
-                    text.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-        });
-
 
     }
 
