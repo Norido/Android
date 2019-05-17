@@ -166,15 +166,14 @@ public class Login extends AppCompatActivity {
                             email = user.getEmail();
                             SDT = user.getPhoneNumber();
                             avatar = user.getPhotoUrl().toString();
-                            databaseReference.child("users");
-                            databaseReference.addChildEventListener(new ChildEventListener() {
+                            databaseReference.child("users").addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                    Log.d(TAG, String.valueOf(dataSnapshot.getValue()));
+                                    Log.d(TAG, dataSnapshot.getKey());
                                     if (!dataSnapshot.getKey().equals(uid)) {
                                         User userCreate = new User(displayname, email, avatar, SDT);
                                         databaseReference.child("users").child(uid).setValue(userCreate);
-                                        Log.d(TAG, "signInWithCredential:success 2" + uid);
+                                        Log.d(TAG, "signInWithCredential:success " + uid);
                                     }
                                 }
 
