@@ -222,20 +222,20 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             final FirebaseUser user = mAuth.getCurrentUser();
+                            uid = user.getUid();
+                            displayname = user.getDisplayName();
+                            email = user.getEmail();
+                            SDT = user.getPhoneNumber();
+                            avatar = user.getPhotoUrl().toString();
                             databaseReference.child("users").addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                    if (user.getUid() != dataSnapshot.getKey()){
-                                        uid = user.getUid();
-                                        displayname = user.getDisplayName();
-                                        email = user.getEmail();
-                                        SDT = user.getPhoneNumber();
-                                        avatar = user.getPhotoUrl().toString();
-                                        User userCreate = new User(displayname,email,avatar,SDT);
+                                    if (!dataSnapshot.getKey().equals(uid)) {
+                                        User userCreate = new User(displayname, email, avatar, SDT);
                                         databaseReference.child("users").child(uid).setValue(userCreate);
-                                        Log.d(TAG, "signInWithCredential:success 2" + uid);
-
+                                        Log.d(TAG, "signInWithCredential:success " + uid);
                                     }
+                                    
 
 
                                 }
