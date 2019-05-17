@@ -25,9 +25,7 @@
             android:theme="@style/AppTheme.SliderActivity">
         </activity>
         <activity android:name=".ReadBook"/>
-        <activity android:name=".xem_tat_ca"
-            android:label="@string/sach_moi_nhat"
-            >
+        <activity android:name=".xem_tat_ca">
         </activity>
         <activity android:name=".Sach_cua_tui"
             android:label="Sách của tui">

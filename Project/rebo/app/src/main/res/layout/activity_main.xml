@@ -254,7 +254,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
-                    android:text="@string/sachcuatui" />
+                    android:text="@string/sachcuatui"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 
@@ -279,7 +280,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
-                    android:text="@string/sachtuithich" />
+                    android:text="@string/sachtuithich"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+            <!-- Day / Night mode -->
+
+            <LinearLayout
+                android:id="@+id/layout_dark_mode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <com.mahfa.dnswitch.DayNightSwitch
+                    android:id="@+id/day_night"
+                    android:layout_width="@dimen/navigation_item_dark_mode_width"
+                    android:layout_height="@dimen/navigation_item_dark_mode_height"
+                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dark_mode"
+                    android:layout_marginStart="@dimen/padding_extra_extra_large"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 

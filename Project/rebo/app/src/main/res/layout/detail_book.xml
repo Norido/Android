@@ -17,9 +17,7 @@
             android:id="@+id/header_book"
             android:layout_width="match_parent"
             android:layout_height="@dimen/book_header_height"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/detail_bg">
 
             <RelativeLayout
@@ -42,14 +40,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_img_detail"
-                android:layout_alignParentBottom="true"
-                android:paddingTop="@dimen/activity_horizontal_margin">
+                android:layout_marginRight="@dimen/padding_extra_large"
+                android:layout_marginLeft="@dimen/padding_extra_large">
 
                 <TextView
                     android:id="@+id/name_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/padding_extra_large"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -62,19 +61,33 @@
                     android:paddingTop="@dimen/padding_medium"
                     android:textSize="15sp" />
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animation_view"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
-                    app:lottie_autoPlay="false"
-                    app:lottie_fileName="heart.json"
-                    app:lottie_loop="false" />
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/layout_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_name_detail"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#FAFAFA">
+
+                </RelativeLayout>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_right_like"
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="heart.json"
+                    app:lottie_loop="false" />
+            </RelativeLayout>
 
         </RelativeLayout>
         <LinearLayout
@@ -83,11 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_book"
             android:orientation="vertical">
-            <View
-                android:id="@+id/view_detail"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/padding_tiny"
-                android:background="@color/view" />
             <LinearLayout
                 android:id="@+id/layout_noidung_detail"
                 android:layout_width="match_parent"
@@ -137,22 +145,17 @@
 
                 >
 
-                <info.hoang8f.widget.FButton
+                <Button
                     android:id="@+id/tai_sach"
                     android:layout_width="@dimen/detail_padding"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/padding_large"
-                    android:text="Tải sách"
+                    android:text="@string/tai_sach"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/textsize_label"
-                    app:fButtonColor="@color/fbutton_color_green_sea"
-                    fbutton:cornerRadius="25dp"
-                    fbutton:shadowColor="@color/fbutton_color_asbestos"
-                    fbutton:shadowEnabled="true"
-                    fbutton:shadowHeight="4dp" />
-                <!--android:background="@drawable/heart_off"/>-->
-                <info.hoang8f.widget.FButton
+                    android:background="@drawable/button" />
+                <Button
                     android:id="@+id/doc_sach"
                     android:layout_width="@dimen/detail_padding"
                     android:layout_height="wrap_content"
@@ -160,11 +163,7 @@
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/textsize_label"
-                    app:fButtonColor="@color/fbutton_color_green_sea"
-                    fbutton:cornerRadius="25dp"
-                    fbutton:shadowColor="@color/fbutton_color_asbestos"
-                    fbutton:shadowEnabled="true"
-                    fbutton:shadowHeight="4dp" />
+                    android:background="@drawable/button" />
             </LinearLayout>
 
             <View

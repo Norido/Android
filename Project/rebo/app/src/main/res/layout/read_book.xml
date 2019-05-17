@@ -27,6 +27,7 @@
         android:layout_marginRight="@dimen/padding_extra_large"
         android:layout_marginBottom="@dimen/padding_extra_large"
         android:visibility="invisible"
+        android:src="@drawable/read_book_setting"
         />
         <!-- Overlay that dims the screen -->
         <com.gordonwong.materialsheetfab.DimOverlayFrameLayout

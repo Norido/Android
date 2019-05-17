@@ -16,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -30,8 +32,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.os.SystemClock.sleep;
 
 public class MainActivity extends AppCompatActivity {
     // Drawable Navigation variable
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Sliding_Image sliding_image;
     private CirclePageIndicator indicator;
     private TextView noiDung,tacGia;
-
+    private Animation animFadeIn,animFadeOut;
     //Xem tat ca
     private TextView xem_tat_ca, xem_tat_ca_2;
     //sach cua tui
@@ -157,9 +162,11 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot data: dataSnapshot.getChildren()){
                     words.add(data.getValue(Book.class));
                 }
-                final Handler handler = new Handler();
-                final Runnable Update = new Runnable() {
-                    public void run() {
+                animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
+                animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_out);
+                animFadeIn.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
                         if (currentWord == NUM_WORDS) {
                             currentWord = 0;
                         }
@@ -167,14 +174,37 @@ public class MainActivity extends AppCompatActivity {
                         tacGia.setText(words.get(currentWord).getTacGia());
                         currentWord++;
                     }
-                };
-                Timer swipeTimer = new Timer();
-                swipeTimer.schedule(new TimerTask() {
+
                     @Override
-                    public void run() {
-                        handler.post(Update);
+                    public void onAnimationEnd(Animation animation) {
+                        sleep(5000);
+                        noiDung.startAnimation(animFadeOut);
+                        tacGia.startAnimation(animFadeOut);
                     }
-                }, 3000, 5000);
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                animFadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        noiDung.startAnimation(animFadeIn);
+                        tacGia.startAnimation(animFadeIn);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                noiDung.startAnimation(animFadeIn);
+                tacGia.startAnimation(animFadeIn);
             }
 
             @Override
@@ -183,16 +213,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // recycler view book horizontal sach moi nhat
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_book);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        ((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new Adapter_Book_moi_nhat(sach_moi_nhat);
         recyclerView.setAdapter(recyclerAdapter);
 
-        book.limitToFirst(5).addChildEventListener(new ChildEventListener() {
+        book.limitToLast(5).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 sach_moi_nhat.add(dataSnapshot.getValue(Book.class));
@@ -221,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // doc nhieu nhat
         Adapter_doc_nhieu_nhat = new Adapter_Book_doc_nhieu_nhat(this, doc_nhieu_nhat);
         Grid_doc_nhieu_nhat = (GridView) findViewById(R.id.gridview_docnhieunhat);
@@ -230,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 doc_nhieu_nhat.add(dataSnapshot.getValue(Book.class));
+                Collections.reverse(doc_nhieu_nhat); // reverse
                 Adapter_doc_nhieu_nhat.notifyDataSetChanged();
             }
 
@@ -252,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
         Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

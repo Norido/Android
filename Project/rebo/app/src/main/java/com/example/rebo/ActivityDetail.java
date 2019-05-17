@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
@@ -20,12 +21,11 @@ import com.r0adkll.slidr.Slidr;
 
 import com.squareup.picasso.Picasso;
 
-import info.hoang8f.widget.FButton;
 
 public class ActivityDetail extends AppCompatActivity {
     private ExpandableTextView expandableTextView;
     private TextView name, author,theloai,nhaxuatban,ngayxuanban;
-    private FButton read_book,tai_sach;
+    private Button read_book,tai_sach;
     //private ImageView img;
     private ImageView img;
     private LottieAnimationView lottieAnimationView;
@@ -114,7 +114,7 @@ public class ActivityDetail extends AppCompatActivity {
 
 
         // chuyen sang doc sach
-        read_book = (FButton) findViewById(R.id.doc_sach);
+        read_book = (Button) findViewById(R.id.doc_sach);
         read_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +126,7 @@ public class ActivityDetail extends AppCompatActivity {
         });
 
         // tai sach
-        tai_sach = (FButton) findViewById(R.id.tai_sach);
+        tai_sach = (Button) findViewById(R.id.tai_sach);
 
     }
 

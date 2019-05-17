@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class xem_tat_ca extends AppCompatActivity {
@@ -42,19 +43,19 @@ public class xem_tat_ca extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.getStringExtra("xem_tat_ca").equals("sach_moi_nhat")){
             sach_moi_nhat();
+            getSupportActionBar().setTitle("Sách mới nhất");
         }
-        else
+        else {
             doc_nhieu_nhat();
-
+            getSupportActionBar().setTitle("Đọc nhiều nhất");
+        }
         //Event
         xem_tat_ca.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(xem_tat_ca.this, ActivityDetail.class);
                 Book data = book.get(position);
-                intent.putExtra("img", data.getBiaSach());
-                intent.putExtra("title", data.getTenSach());
-                intent.putExtra("author", data.getTacGia());
+                intent.putExtra("tenSach", data.getTenSach());
                 startActivity(intent);
             }
         });
@@ -65,6 +66,7 @@ public class xem_tat_ca extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 book.add(dataSnapshot.getValue(Book.class));
+                Collections.reverse(book); // reverse
                 adapter.notifyDataSetChanged();
             }
 
@@ -94,6 +96,7 @@ public class xem_tat_ca extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 book.add(dataSnapshot.getValue(Book.class));
+                Collections.reverse(book); // reverse
                 adapter.notifyDataSetChanged();
             }
 

@@ -18,13 +18,14 @@
     <dimen name="navigation_header_height">160dp</dimen>
     <dimen name="navigation_item_height">48dp</dimen>
     <dimen name="navigation_item_icon_size">24dp</dimen>
+    <dimen name="navigation_item_dark_mode_height">24dp</dimen>
+    <dimen name="navigation_item_dark_mode_width">48dp</dimen>
     <!-- detail_book Activity components -->
-    <dimen name="book_header_height">280dp</dimen>
+    <dimen name="book_header_height">330dp</dimen>
     <dimen name="book_height">180dp</dimen>
     <dimen name="book_width">125dp</dimen>
     <dimen name="detail_padding">150dp</dimen>
-    <dimen name="margin_right_like">73dp</dimen>
-    <dimen name="margin_bottom_like">-50dp</dimen>
+    <dimen name="margin_right_like">50dp</dimen>
 
     <!-- Online -->
     <dimen name="header_online_height">160dp</dimen>
