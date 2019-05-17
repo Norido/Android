@@ -52,7 +52,6 @@ public class User_info extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
                 displayname1.setText(user.getUsername());
-                displayname2.setText(user.getUsername());
                 email.setText(user.getEmail());
                 phone.setText(user.getSDT());
             }

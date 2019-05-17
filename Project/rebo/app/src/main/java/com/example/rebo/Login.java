@@ -235,7 +235,7 @@ public class Login extends AppCompatActivity {
                                         databaseReference.child("users").child(uid).setValue(userCreate);
                                         Log.d(TAG, "signInWithCredential:success " + uid);
                                     }
-                                    
+
 
 
                                 }
