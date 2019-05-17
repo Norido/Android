@@ -29,6 +29,7 @@ public class User_info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        getSupportActionBar().hide();
         setControl();
         setEvent();
     }
@@ -46,14 +47,17 @@ public class User_info extends AppCompatActivity {
     public void setEvent(){
         Intent intent = getIntent();
         String key = intent.getStringExtra("key");
+
         Log.d(TAG, key);
         databaseReference.child("users").child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
-                displayname1.setText(user.getUsername());
+                String username = user.getUsername();
+                displayname1.setText(username);
                 email.setText(user.getEmail());
                 phone.setText(user.getSDT());
+                displayname2.setText(username);
             }
 
             @Override
