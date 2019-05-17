@@ -9,4 +9,5 @@
     <string name="res">Đăng kí</string>
     <string name="facebook_app_id">2010308862411424</string>
     <string name="fb_login_protocol_scheme">fb2010308862411424</string>
+    <string name="title_activity_ani_login">AniLogin</string>
 </resources>

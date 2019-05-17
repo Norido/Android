@@ -40,6 +40,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
@@ -59,7 +61,7 @@ public class MainActivity extends AwesomeSplash {
         //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
 
         //Customize Logo
-        configSplash.setLogoSplash(R.drawable.rebo_round); //or any other drawable
+        configSplash.setLogoSplash(R.drawable.rebo_ani_begin); //or any other drawable
         configSplash.setAnimLogoSplashDuration(3000); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 
@@ -87,6 +89,7 @@ public class MainActivity extends AwesomeSplash {
 
     @Override
     public void animationsFinished() {
+
         Intent intent = new Intent(MainActivity.this,Login.class);
         startActivity(intent);
         //transit to another activity here

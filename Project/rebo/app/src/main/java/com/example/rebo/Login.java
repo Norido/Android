@@ -3,6 +3,7 @@ package com.example.rebo;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -33,6 +33,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class Login extends AppCompatActivity {
 
@@ -45,6 +52,9 @@ public class Login extends AppCompatActivity {
     String TAG = "Error:" ;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListner;
+    String uid, email, displayname, avatar, SDT;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +66,7 @@ public class Login extends AppCompatActivity {
         loginFaceBook();
 
     }
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
 
-    }
     public void setControl(){
         btnSignUp = findViewById(R.id.signup);
         btnfb = findViewById(R.id.btnfb);
@@ -68,6 +74,7 @@ public class Login extends AppCompatActivity {
         googleSignInButton = findViewById(R.id.btngg);
         btnImgGg = findViewById(R.id.btnImgGg);
         mAuth = FirebaseAuth.getInstance();
+
     }
     public void setEvent(){
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +123,7 @@ public class Login extends AppCompatActivity {
                         Log.w(TAG, "Google sign in failed", e);
                         // ...
                     }
-                    Intent intent = new Intent(Login.this,SignUp.class);
-                    startActivity(intent);
+
                     break;
             }
         }
@@ -129,8 +135,6 @@ public class Login extends AppCompatActivity {
         btnfb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent intent = new Intent(Login.this,SignUp.class);
-                startActivity(intent);
                 // Retrieving access token using the LoginResult
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -157,6 +161,47 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uid = user.getUid();
+                            displayname = user.getDisplayName();
+                            email = user.getEmail();
+                            SDT = user.getPhoneNumber();
+                            avatar = user.getPhotoUrl().toString();
+                            databaseReference.child("users");
+                            databaseReference.addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                    Log.d(TAG, String.valueOf(dataSnapshot.getValue()));
+                                    if (!dataSnapshot.getKey().equals(uid)) {
+                                        User userCreate = new User(displayname, email, avatar, SDT);
+                                        databaseReference.child("users").child(uid).setValue(userCreate);
+                                        Log.d(TAG, "signInWithCredential:success 2" + uid);
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            Intent intent = new Intent(Login.this,User_info.class);
+                            intent.putExtra("key",user.getUid());
+                            startActivity(intent);
+
 
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -177,7 +222,50 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            databaseReference.child("users").addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                    if (user.getUid() != dataSnapshot.getKey()){
+                                        uid = user.getUid();
+                                        displayname = user.getDisplayName();
+                                        email = user.getEmail();
+                                        SDT = user.getPhoneNumber();
+                                        avatar = user.getPhotoUrl().toString();
+                                        User userCreate = new User(displayname,email,avatar,SDT);
+                                        databaseReference.child("users").child(uid).setValue(userCreate);
+                                        Log.d(TAG, "signInWithCredential:success 2" + uid);
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            Intent intent = new Intent(Login.this,User_info.class);
+                            intent.putExtra("key",user.getUid());
+                            startActivity(intent);
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.

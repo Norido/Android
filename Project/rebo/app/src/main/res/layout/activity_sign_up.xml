@@ -6,12 +6,14 @@
     android:orientation="vertical"
     android:gravity="center"
 
-    android:background="@drawable/bg">
-
+    android:background="@drawable/anilogin2"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <ImageView
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:src="@drawable/rebo" />
+        android:src="@drawable/rebo_login"
+        android:layout_marginBottom="50dp" />
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -22,6 +24,7 @@
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="10dp"
             android:hint="Email"
+
 
             />
 
@@ -36,6 +39,7 @@
             android:drawablePadding="10dp"
             android:layout_margin="10dp"
             android:background="@drawable/shapeedittext"
+
             />
 
 
@@ -49,6 +53,8 @@
             android:drawablePadding="10dp"
             android:layout_margin="10dp"
             android:background="@drawable/shapeedittext"
+            android:inputType="textPassword"
+
             />
 
     <Button
