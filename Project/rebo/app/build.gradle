@@ -19,27 +19,31 @@ android {
 }
 
 dependencies {
+    //implementation 'com.github.ViksaaSkool:AwesomeSplash:v1.0.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.ms-square:expandableTextView:0.1.4' // Expandable textview
-    implementation 'com.android.support:recyclerview-v7:28.0.0' //recyclerview sach moi nhat
-    implementation 'com.r0adkll:slidableactivity:2.0.6' // chuyen online sang chi tiet
-    implementation 'com.github.jd-alexander:android-flat-button:v1.1' // UI button
-    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1' // sliding image header on activity online
-    implementation 'com.android.support:support-v4:28.0.0' // support viewpage
-    implementation 'com.airbnb.android:lottie:2.7.0' // lottie on detail book activity
-    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1' //read book PDF
-    implementation 'com.google.firebase:firebase-core:16.0.1' // firebase core
-    implementation 'com.google.firebase:firebase-database:16.0.1' // firebase database
-    implementation 'com.squareup.picasso:picasso:2.71828' // load image from firebase
-    implementation 'com.gordonwong:material-sheet-fab:1.2.1' // sheet fab choose chapter readbook activity
-    implementation 'com.github.Mahfa:DayNightSwitch:1.2'
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.ms-square:expandableTextView:0.1.4'// Expandable textview
+    implementation 'com.android.support:recyclerview-v7:28.0.0' //recyclerview sach moi nhat
+    implementation 'com.r0adkll:slidableactivity:2.0.6'// chuyen online sang chi tiet
+    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'// sliding image header on activity online
+    implementation 'com.android.support:support-v4:28.0.0'// support viewpage
+    implementation 'com.airbnb.android:lottie:2.7.0' // lottie on detail book activity
+    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1' //read book PDF
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1' // firebase core
+    implementation 'com.google.firebase:firebase-database:16.0.1' // firebase database
+    implementation 'com.squareup.picasso:picasso:2.71828' // load image from firebase
+    implementation 'com.gordonwong:material-sheet-fab:1.2.1'
+     // sheet fab choose chapter readbook activity
+    implementation 'com.github.Mahfa:DayNightSwitch:1.2'// night/day mode
 
 }
+
 apply plugin: 'com.google.gms.google-services'

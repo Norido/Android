@@ -7,6 +7,9 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="login">Đăng nhập</string>
     <string name="res">Đăng kí</string>
+    <string name="facebook_app_id">2010308862411424</string>
+    <string name="fb_login_protocol_scheme">fb2010308862411424</string>
+    <string name="title_activity_ani_login">AniLogin</string>
     <string name="chi_tiet_sach">Thông tin chi tiết</string>
     <string name="xem_tat_ca">Xem tất cả</string>
     <string name="label_xem_tat_ca">XEM TẤT CẢ</string>

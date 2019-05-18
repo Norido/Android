@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/book_header_height"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/detail_bg">
+            android:background="@drawable/read_book_setting">
 
             <RelativeLayout
                 android:id="@+id/layout_img_detail"

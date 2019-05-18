@@ -15,7 +15,7 @@
 
         android:background="#FFFFFF"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".Online">
 
 
         <RelativeLayout

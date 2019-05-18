@@ -38,7 +38,7 @@ import java.util.TimerTask;
 
 import static android.os.SystemClock.sleep;
 
-public class MainActivity extends AppCompatActivity {
+public class Online extends AppCompatActivity {
     // Drawable Navigation variable
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference,book,adv;
     private FirebaseDatabase firebaseDatabase;
 
+    MenuItem item1,item2;
+    String UID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Auto doi anh
         mPager = (ViewPager) findViewById(R.id.pager);
-        sliding_image = new Sliding_Image(MainActivity.this, header);
+        sliding_image = new Sliding_Image(Online.this, header);
         mPager.setAdapter(sliding_image);
         adv.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ActivityDetail.class);
+                Intent intent = new Intent(Online.this, ActivityDetail.class);
                 Book book = doc_nhieu_nhat.get(position);
                 intent.putExtra("tenSach", book.getTenSach());
                 startActivity(intent);
@@ -300,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         xem_tat_ca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, xem_tat_ca.class);
+                Intent intent = new Intent(Online.this, xem_tat_ca.class);
                 intent.putExtra("xem_tat_ca","sach_moi_nhat");
                 startActivity(intent);
             }
@@ -311,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         xem_tat_ca_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, xem_tat_ca.class);
+                Intent intent = new Intent(Online.this, xem_tat_ca.class);
                 intent.putExtra("xem_tat_ca","doc_nhieu_nhat");
                 startActivity(intent);
             }
@@ -323,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         layout_sach_cua_tui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Sach_cua_tui.class);
+                Intent intent = new Intent(Online.this, Sach_cua_tui.class);
                 startActivity(intent);
             }
         });
@@ -332,11 +334,20 @@ public class MainActivity extends AppCompatActivity {
         layout_sach_tui_thich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Sach_tui_thich.class);
+                Intent intent = new Intent(Online.this, Sach_tui_thich.class);
                 startActivity(intent);
             }
         });
-
+        item1 = (MenuItem) findViewById(R.id.dang_nhap);
+        item2 = (MenuItem) findViewById(R.id.dang_ki);
+        // dang nhap thanh cong
+//        Intent intent = getIntent();
+//        if(!intent.getStringExtra("key").isEmpty()){
+//
+//            item1.setTitle("Welcome to Rebo");
+//            item2.setTitle("Your profile");
+//        }else
+//            UID = intent.getStringExtra("key");
     }
 
     @Override
@@ -361,10 +372,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.dang_nhap:{
+                Intent intent = new Intent(Online.this,Login.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.dang_ki:{
+//                if(item2.equals("Đăng kí")){
+                    Intent intent = new Intent(Online.this,SignUp.class);
+                    startActivity(intent);
+//                }
+//                else{
+//                    Intent intent = new Intent(Online.this,User_info.class);
+//                    intent.putExtra("key",UID);
+//                    startActivity(intent);
+//                }
+
+                break;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+
     }
 
 }
