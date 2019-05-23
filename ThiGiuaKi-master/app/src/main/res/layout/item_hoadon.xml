@@ -11,9 +11,9 @@
         android:background="#FFF">
 
         <ImageView
-            android:layout_width="130dp"
-            android:layout_height="144dp"
-            android:src="@drawable/icon_hoadon" />
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:src="@drawable/hoadon" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
