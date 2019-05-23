@@ -1,0 +1,47 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_mahang"
+            android:layout_width = "0dp"
+            android:layout_height = "wrap_content"
+            android:layout_weight = "1"
+            android:gravity = "center"
+            android:padding = "5dp"
+            android:text = "Mã hàng"
+            />
+        <TextView
+            android:id="@+id/txt_tenhang"
+            android:layout_width = "0dp"
+            android:layout_height = "wrap_content"
+            android:layout_weight = "2"
+            android:gravity = "center"
+            android:padding = "5dp"
+            android:text = "Tên hàng"
+            />
+        <TextView
+            android:id="@+id/txt_dvt"
+            android:layout_width = "0dp"
+            android:layout_height = "wrap_content"
+            android:layout_weight = "1"
+            android:gravity = "center"
+            android:padding = "5dp"
+            android:text = "DVT"
+            />
+        <TextView
+            android:id="@+id/txt_gia"
+            android:layout_width = "0dp"
+            android:layout_height = "wrap_content"
+            android:layout_weight = "2"
+            android:gravity = "center"
+            android:padding = "5dp"
+            android:text = "Giá"
+            />
+    </LinearLayout>
+
+</LinearLayout>
