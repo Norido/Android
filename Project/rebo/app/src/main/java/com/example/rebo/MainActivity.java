@@ -61,7 +61,7 @@ public class MainActivity extends AwesomeSplash {
         //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
 
         //Customize Logo
-        configSplash.setLogoSplash(R.drawable.rebo_ani_begin); //or any other drawable
+        configSplash.setLogoSplash(R.drawable.rebo_login); //or any other drawable
         configSplash.setAnimLogoSplashDuration(3000); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 

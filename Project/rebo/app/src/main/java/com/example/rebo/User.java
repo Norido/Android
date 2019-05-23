@@ -15,7 +15,11 @@ public class User {
         Avatar = avatar;
         this.SDT = SDT;
     }
-
+    public User(String username, String email, String SDT) {
+        this.username = username;
+        this.email = email;
+        this.SDT = SDT;
+    }
     public String getUsername() {
         return username;
     }

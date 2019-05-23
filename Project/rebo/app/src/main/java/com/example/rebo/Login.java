@@ -40,21 +40,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 
 public class Login extends AppCompatActivity {
 
-    Button btnSignUp;
-    LoginButton btnfb;
-    ImageView btnImgfb,btnImgGg;
-    CallbackManager callbackManager;
-    SignInButton googleSignInButton;
-    GoogleSignInClient googleSignInClient;
-    String TAG = "Error:" ;
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListner;
-    String uid, email, displayname, avatar, SDT;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference();
+    public  Button btnSignUp;
+    public  LoginButton btnfb;
+    public  ImageView btnImgfb,btnImgGg;
+    public CallbackManager callbackManager;
+    public  SignInButton googleSignInButton;
+    public  GoogleSignInClient googleSignInClient;
+    public  String TAG = "Error:" ;
+    public FirebaseAuth mAuth;
+    public String uid, email, displayname, avatar, SDT;
+    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    public DatabaseReference databaseReference = firebaseDatabase.getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +121,7 @@ public class Login extends AppCompatActivity {
                         // Google Sign In was successful, authenticate with Firebase
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         firebaseAuthWithGoogle(account);
+
                     } catch (ApiException e) {
                         // Google Sign In failed, update UI appropriately
                         Log.w(TAG, "Google sign in failed", e);
@@ -166,29 +170,17 @@ public class Login extends AppCompatActivity {
                             email = user.getEmail();
                             SDT = user.getPhoneNumber();
                             avatar = user.getPhotoUrl().toString();
-                            databaseReference.child("users").addChildEventListener(new ChildEventListener() {
+                            databaseReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                    Log.d(TAG, dataSnapshot.getKey());
-                                    if (!dataSnapshot.getKey().equals(uid)) {
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.getValue() == null){
                                         User userCreate = new User(displayname, email, avatar, SDT);
                                         databaseReference.child("users").child(uid).setValue(userCreate);
                                         Log.d(TAG, "signInWithCredential:success " + uid);
+                                        Intent intent = new Intent(Login.this,User_info.class);
+                                        intent.putExtra("key", uid);
+                                        startActivity(intent);
                                     }
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                                 }
 
@@ -198,19 +190,17 @@ public class Login extends AppCompatActivity {
                                 }
                             });
                             Intent intent = new Intent(Login.this,User_info.class);
-                            intent.putExtra("key",user.getUid());
+                            intent.putExtra("key", user.getUid());
                             startActivity(intent);
-
-
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(Login.this, "Aut Fail", Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
     }
+
+
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -221,38 +211,23 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            final FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
                             uid = user.getUid();
                             displayname = user.getDisplayName();
                             email = user.getEmail();
                             SDT = user.getPhoneNumber();
                             avatar = user.getPhotoUrl().toString();
-                            databaseReference.child("users").addChildEventListener(new ChildEventListener() {
+                            databaseReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                    if (!dataSnapshot.getKey().equals(uid)) {
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.getValue() == null){
                                         User userCreate = new User(displayname, email, avatar, SDT);
                                         databaseReference.child("users").child(uid).setValue(userCreate);
                                         Log.d(TAG, "signInWithCredential:success " + uid);
+                                        Intent intent = new Intent(Login.this,User_info.class);
+                                        intent.putExtra("key", uid);
+                                        startActivity(intent);
                                     }
-
-
-
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                                 }
 
                                 @Override
@@ -261,11 +236,8 @@ public class Login extends AppCompatActivity {
                                 }
                             });
                             Intent intent = new Intent(Login.this,User_info.class);
-                            intent.putExtra("key",user.getUid());
+                            intent.putExtra("key", user.getUid());
                             startActivity(intent);
-
-
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

@@ -109,7 +109,7 @@
                 android:drawablePadding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shapeedittext"
-                android:text="@string/app_name"
+                android:hint="Email"
                 />
         </LinearLayout>
         <LinearLayout
