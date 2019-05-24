@@ -1,15 +1,24 @@
 package com.gumiho.giuaky;
 
 public class ChiTietHoaDon {
-    private int soHD, maHang, soLuong;
+    private int key,soHD, maHang, soLuong;
 
     public ChiTietHoaDon() {
 
     }
-    public ChiTietHoaDon(int soHD, int maHang, int soLuong) {
+    public ChiTietHoaDon(int key, int soHD, int maHang, int soLuong) {
+        this.key = key;
         this.soHD = soHD;
         this.maHang = maHang;
         this.soLuong = soLuong;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 
     public int getSoHD() {

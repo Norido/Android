@@ -38,7 +38,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
     private Spinner soHD,maHang;
     private String so_hoa_don;
     int index = -1;
-    private FloatingActionButton fab, btnInsert, btnDelete, btnUpdate;
+    private FloatingActionButton btnInsert, btnDelete, btnUpdate;
     private boolean check = false, check_position = true;
     private int old_position = -1;
     private Dialog dialog;
@@ -55,25 +55,6 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
         Intent intent = getIntent();
         so_hoa_don = intent.getStringExtra("data");
         init();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check){
-                    btnDelete.hide();
-                    btnInsert.hide();
-                    btnUpdate.hide();
-                    check = !check;
-                }
-                else{
-                    btnDelete.show();
-                    btnInsert.show();
-                    btnUpdate.show();
-                    check = !check;
-                }
-
-            }
-        });
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         chitiethoaDonAdapter = new ChiTietHoaDonAdapter(ChiTietHoaDonActivity.this, R.layout.item_chitiethoadon, data_CTHD);
@@ -84,7 +65,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(old_position != position){
-                    fab.show();
+                    fab_show();
                     check_position = true;
                 }else
                 if(check_position){
@@ -92,7 +73,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
                     check_position = !check_position;
                 }
                 else {
-                    fab.show();
+                    fab_show();
                     check_position = !check_position;
                 }
 
@@ -143,7 +124,6 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
     }
     public void init() {
         listviewChiTietHoaDon =  findViewById(R.id.listview_dschitiethoadon);
-        fab = (FloatingActionButton) findViewById(R.id.fab_chitiethoadon);
         btnInsert = (FloatingActionButton) findViewById(R.id.btn_insert);
         btnUpdate = (FloatingActionButton) findViewById(R.id.btn_update);
         btnDelete = (FloatingActionButton) findViewById(R.id.btn_delete);
@@ -153,7 +133,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
     private void Dialog(String s){
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.chucnang_hoadon);
+        dialog.setContentView(R.layout.chucnang_chitiethoadon);
         title_chucnang = (TextView) dialog.findViewById(R.id.title_chucnang);
         soHD = (Spinner) dialog.findViewById(R.id.edt_cthd_sohd);
         maHang = (Spinner) dialog.findViewById(R.id.edt_cthd_mahang);
@@ -172,19 +152,21 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
         }
         Cursor data_1 = database.Getdata("SELECT MaHang FROM MATHANG");
         while (data_1.moveToNext()){
-            int maHang = data.getInt(0);
-            sohoadon.add(String.valueOf(maHang));
+            int maHang = data_1.getInt(0);
+            mahang.add(String.valueOf(maHang));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sohoadon);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         soHD.setAdapter(adapter);
         ArrayAdapter<String> adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mahang);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        adapter_1.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         maHang.setAdapter(adapter_1);
 
         title_chucnang.setText(s);
-        ChiTietHoaDon cthd = data_CTHD.get(index);
-        soLuong.setText(cthd.getSoLuong());
+        if(title_chucnang.getText().equals("Sửa")) {
+            ChiTietHoaDon cthd = data_CTHD.get(index);
+            soLuong.setText(String.valueOf(cthd.getSoLuong()));
+        }
         soHD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -244,23 +226,24 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
         ChiTietHoaDon chitiethoaDon = new ChiTietHoaDon();
         chitiethoaDon.setSoLuong(Integer.parseInt(soLuong.getText().toString()));
         chitiethoaDon.setSoHD(Integer.parseInt(sohoadon.get(position_soHD)));
-        chitiethoaDon.setSoHD(Integer.parseInt(mahang.get(position_soHD)));
+        chitiethoaDon.setMaHang(Integer.parseInt(mahang.get(position_MaHang)));
+        chitiethoaDon.setKey(data_CTHD.get(index).getKey());
         return chitiethoaDon;
     }
 
     public void showData(){
         Cursor data = database.Getdata("SELECT * FROM CHITIETDONHANG WHERE soHD='"+ so_hoa_don +"'");
         while (data.moveToNext()){
-            int soHD = data.getInt(0);
-            int mahang = data.getInt(1);
-            int soluong = data.getInt(2);
-            data_CTHD.add(new ChiTietHoaDon(soHD,mahang,soluong));
+            int Key = data.getInt(0);
+            int soHD = data.getInt(1);
+            int mahang = data.getInt(2);
+            int soluong = data.getInt(3);
+            data_CTHD.add(new ChiTietHoaDon(Key,soHD,mahang,soluong));
         }
         chitiethoaDonAdapter.notifyDataSetChanged();
     }
     public void Insert() {
-        ChiTietHoaDon chiTietHoaDon = getChiTietHoaDon();
-        String query = "INSERT INTO HOADON VALUES(null,'"+ chiTietHoaDon.getSoHD() + "','" + chiTietHoaDon.getMaHang() + "','" + chiTietHoaDon.getSoLuong() +"')";
+        String query = "INSERT INTO CHITIETDONHANG VALUES(null,'"+ sohoadon.get(position_soHD) + "','" + mahang.get(position_MaHang) + "','" + soLuong.getText().toString() +"')";
         database.Querydata(query);
         data_CTHD.clear();
         showData();
@@ -271,7 +254,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
 
     public void Update() {
         ChiTietHoaDon chiTietHoaDon = getChiTietHoaDon();
-        String query = "UPDATE HOADON SET MaHang='"+ chiTietHoaDon.getMaHang() + "',SoLuong='" + chiTietHoaDon.getSoLuong() + "' WHERE SoHD='"+ chiTietHoaDon.getSoHD()+ "'";
+        String query = "UPDATE CHITIETDONHANG SET MaHang='"+ chiTietHoaDon.getMaHang() + "',SoLuong='" + chiTietHoaDon.getSoLuong() + "',SoHD='"+ chiTietHoaDon.getSoHD()+ "' WHERE Key='" + chiTietHoaDon.getKey()+"'";
         database.Querydata(query);
         data_CTHD.clear();
         showData();
@@ -283,7 +266,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
     public void Delete() {
         ChiTietHoaDon chitiethoaDon = data_CTHD.get(index);
         if (index >= 0) {
-            String query = "DELETE FROM HOADON WHERE SoHD='"+ chitiethoaDon.getSoHD() + "'";
+            String query = "DELETE FROM CHITIETDONHANG WHERE Key='"+ chitiethoaDon.getKey() + "'";
             database.Querydata(query);
             data_CTHD.clear();
             showData();
@@ -293,9 +276,11 @@ public class ChiTietHoaDonActivity extends AppCompatActivity{
         } else Toast.makeText(this, "Xóa không thành công", Toast.LENGTH_SHORT).show();
     }
     public void fab_hide(){
-        fab.hide();
         btnDelete.hide();
-        btnInsert.hide();
         btnUpdate.hide();
+    }
+    public void fab_show(){
+        btnDelete.show();
+        btnUpdate.show();
     }
 }

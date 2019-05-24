@@ -34,7 +34,7 @@ public class KhachHangActivity extends AppCompatActivity {
     private List<KhachHang> data_KH = new ArrayList<>();
     private Database database;
     private KhachHangAdapter khachHangAdapter = null;
-    private FloatingActionButton fab,btnInsertKH, btnDeleteKH, btnUpdateKH;
+    private FloatingActionButton btnInsertKH, btnDeleteKH, btnUpdateKH;
     private EditText  edtTenKH, edtDChi, edtDThoai;
     private TextView edtMaKH;
     private int index = -1;
@@ -51,24 +51,6 @@ public class KhachHangActivity extends AppCompatActivity {
 
         init();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check){
-                    btnDeleteKH.hide();
-                    btnInsertKH.hide();
-                    btnUpdateKH.hide();
-                    check = !check;
-                }
-                else{
-                    btnDeleteKH.show();
-                    btnInsertKH.show();
-                    btnUpdateKH.show();
-                    check = !check;
-                }
-
-            }
-        });
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         khachHangAdapter = new KhachHangAdapter(KhachHangActivity.this, R.layout.item_khachhang, data_KH);
@@ -124,18 +106,15 @@ public class KhachHangActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if(old_position != position){
-                    fab.show();
+                    fab_show();
                     check_position = true;
                 }else
                 if(check_position){
-                    fab.hide();
-                    btnDeleteKH.hide();
-                    btnInsertKH.hide();
-                    btnUpdateKH.hide();
+                    fab_hide();
                     check_position = !check_position;
                 }
                 else {
-                    fab.show();
+                    fab_show();
                     check_position = !check_position;
                 }
 
@@ -187,8 +166,6 @@ public class KhachHangActivity extends AppCompatActivity {
     }
 
     public void init() {
-        fab = (FloatingActionButton) findViewById(R.id.fab_khachhang);
-//        listviewDSKhachHang = (ListView) findViewById(R.id.listview_dskh);
         listviewDSKhachHang = (SwipeMenuListView) findViewById(R.id.listview_dskh);
         btnInsertKH = (FloatingActionButton) findViewById(R.id.btn_insert);
         btnUpdateKH = (FloatingActionButton) findViewById(R.id.btn_update);
@@ -206,15 +183,17 @@ public class KhachHangActivity extends AppCompatActivity {
         ok = (Button) dialog.findViewById(R.id.OK);
         huy = (Button) dialog.findViewById(R.id.huy);
         title_chucnang.setText(s);
+        if(title_chucnang.getText().equals("Sửa")){
         KhachHang kh = data_KH.get(index);
         edtMaKH.setText(String.valueOf(kh.getMaKH()));
         edtTenKH.setText(kh.getTenKH());
         edtDChi.setText(kh.getDiaChi());
         edtDThoai.setText(kh.getSDT());
+        }
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(edtTenKH.getText().equals("") || edtDChi.getText().equals("") || edtDThoai.getText().equals("")){
+                if(edtTenKH.getText().length() == 0 || edtDChi.getText().length() == 0 || edtDThoai.getText().length() == 0){
                     AlertDialog.Builder alert = new AlertDialog.Builder(KhachHangActivity.this);
                     alert.setTitle("Cảnh báo!");
                     alert.setMessage("Bạn chưa nhập đầy đủ thông tin");
@@ -263,8 +242,7 @@ public class KhachHangActivity extends AppCompatActivity {
         khachHangAdapter.notifyDataSetChanged();
     }
     public void InsertKH() {
-        KhachHang khachHang = getKhachHang();
-        String query = "INSERT INTO KHACHHANG VALUES(null,'"+ khachHang.getTenKH() + "','" + khachHang.getDiaChi() + "','" + khachHang.getSDT() +"')";
+        String query = "INSERT INTO KHACHHANG VALUES(null,'"+ edtTenKH.getText().toString() + "','" + edtDChi.getText().toString() + "','" + edtDThoai.getText().toString() +"')";
         database.Querydata(query);
         data_KH.clear();
         showData();
@@ -296,9 +274,11 @@ public class KhachHangActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Xóa không thành công", Toast.LENGTH_SHORT).show();
     }
     public void fab_hide(){
-        fab.hide();
         btnDeleteKH.hide();
-        btnInsertKH.hide();
         btnUpdateKH.hide();
+    }
+    public void fab_show(){
+        btnDeleteKH.show();
+        btnUpdateKH.show();
     }
 }

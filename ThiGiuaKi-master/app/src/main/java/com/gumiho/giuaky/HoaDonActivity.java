@@ -38,7 +38,7 @@ public class HoaDonActivity extends AppCompatActivity {
     private TextView edtSoHD;
     private String ma_khach_hang;
     int index = -1;
-    private FloatingActionButton fab, btnInsertHD, btnDeleteHD, btnUpdateHD;
+    private FloatingActionButton btnInsertHD, btnDeleteHD, btnUpdateHD;
     private boolean check = false, check_position = true;
     private int old_position = -1;
     private Dialog dialog;
@@ -54,25 +54,6 @@ public class HoaDonActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ma_khach_hang = intent.getStringExtra("data");
         init();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check){
-                    btnDeleteHD.hide();
-                    btnInsertHD.hide();
-                    btnUpdateHD.hide();
-                    check = !check;
-                }
-                else{
-                    btnDeleteHD.show();
-                    btnInsertHD.show();
-                    btnUpdateHD.show();
-                    check = !check;
-                }
-
-            }
-        });
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
 
@@ -126,7 +107,7 @@ public class HoaDonActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(old_position != position){
-                    fab.show();
+                    fab_show();
                     check_position = true;
                 }else
                 if(check_position){
@@ -134,7 +115,7 @@ public class HoaDonActivity extends AppCompatActivity {
                     check_position = !check_position;
                 }
                 else {
-                    fab.show();
+                    fab_show();
                     check_position = !check_position;
                 }
 
@@ -185,7 +166,6 @@ public class HoaDonActivity extends AppCompatActivity {
     }
     public void init() {
         listviewDSHoaDon = (SwipeMenuListView) findViewById(R.id.listview_hd);
-        fab = (FloatingActionButton) findViewById(R.id.fab_hoadon);
         btnInsertHD = (FloatingActionButton) findViewById(R.id.btn_insert);
         btnUpdateHD = (FloatingActionButton) findViewById(R.id.btn_update);
         btnDeleteHD = (FloatingActionButton) findViewById(R.id.btn_delete);
@@ -215,10 +195,12 @@ public class HoaDonActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         edtMaKH.setAdapter(adapter);
         title_chucnang.setText(s);
-        HoaDon hd = data_HD.get(index);
-        edtSoHD.setText(String.valueOf(hd.getSoHD()));
-        edtNgaylap.setText(hd.getNgayLap());
-        edtNgaygiao.setText(hd.getNgayGiao());
+        if(title_chucnang.getText().equals("Sửa")) {
+            HoaDon hd = data_HD.get(index);
+            edtSoHD.setText(String.valueOf(hd.getSoHD()));
+            edtNgaylap.setText(hd.getNgayLap());
+            edtNgaygiao.setText(hd.getNgayGiao());
+        }
         edtMaKH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -234,7 +216,7 @@ public class HoaDonActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(edtNgaylap.getText().equals("") || edtNgaygiao.getText().equals("") || hoadon.get(position_MaKH).equals("")){
+                if(edtNgaylap.getText().length() == 0 || edtNgaygiao.getText().length() == 0 || hoadon.get(position_MaKH).length() == 0){
                     AlertDialog.Builder alert = new AlertDialog.Builder(HoaDonActivity.this);
                     alert.setTitle("Cảnh báo!");
                     alert.setMessage("Bạn chưa nhập đầy đủ thông tin");
@@ -291,8 +273,7 @@ public class HoaDonActivity extends AppCompatActivity {
         hoaDonAdapter.notifyDataSetChanged();
     }
     public void InsertHD() {
-        HoaDon hoaDon = getHoaDon();
-        String query = "INSERT INTO HOADON VALUES(null,'"+ hoaDon.getNgayLap() + "','" + hoaDon.getNgayGiao() + "','" + hoaDon.getMaKH() +"')";
+        String query = "INSERT INTO HOADON VALUES(null,'"+ edtNgaylap.getText().toString() + "','" + edtNgaygiao.getText().toString() + "','" + hoadon.get(position_MaKH) +"')";
         database.Querydata(query);
         data_HD.clear();
         showData();
@@ -325,9 +306,11 @@ public class HoaDonActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Xóa không thành công", Toast.LENGTH_SHORT).show();
     }
     public void fab_hide(){
-        fab.hide();
         btnDeleteHD.hide();
-        btnInsertHD.hide();
         btnUpdateHD.hide();
+    }
+    public void fab_show(){
+        btnDeleteHD.show();
+        btnUpdateHD.show();
     }
 }

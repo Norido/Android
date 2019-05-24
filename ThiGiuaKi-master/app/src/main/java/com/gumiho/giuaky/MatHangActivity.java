@@ -28,7 +28,7 @@ public class MatHangActivity extends AppCompatActivity {
     private TextView edtMaMH;
 
     int index = -1;
-    private FloatingActionButton fab,btnInsertMH, btnDeleteMH, btnUpdateMH;
+    private FloatingActionButton btnInsertMH, btnDeleteMH, btnUpdateMH;
     private boolean check = false, check_position = true;
     private int old_position = -1;
     private Dialog dialog;
@@ -41,24 +41,6 @@ public class MatHangActivity extends AppCompatActivity {
         setContentView(R.layout.layout_mathang);
 
         init();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check){
-                    btnDeleteMH.hide();
-                    btnInsertMH.hide();
-                    btnUpdateMH.hide();
-                    check = !check;
-                }
-                else{
-                    btnDeleteMH.show();
-                    btnInsertMH.show();
-                    btnUpdateMH.show();
-                    check = !check;
-                }
-
-            }
-        });
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         matHangAdapter = new MatHangAdapter(MatHangActivity.this, R.layout.item_mathang, data_MH);
@@ -69,18 +51,15 @@ public class MatHangActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(old_position != position){
-                    fab.show();
+                    fab_show();
                     check_position = true;
                 }else
                 if(check_position){
-                    fab.hide();
-                    btnDeleteMH.hide();
-                    btnInsertMH.hide();
-                    btnUpdateMH.hide();
+                    fab_hide();
                     check_position = !check_position;
                 }
                 else {
-                    fab.show();
+                    fab_show();
                     check_position = !check_position;
                 }
 
@@ -130,7 +109,6 @@ public class MatHangActivity extends AppCompatActivity {
     }
     public void init() {
         listviewDSMatHang = (ListView) findViewById(R.id.listview_dsmh);
-        fab = (FloatingActionButton) findViewById(R.id.fab_mathang);
         btnInsertMH = (FloatingActionButton) findViewById(R.id.btn_insert);
         btnUpdateMH = (FloatingActionButton) findViewById(R.id.btn_update);
         btnDeleteMH = (FloatingActionButton) findViewById(R.id.btn_delete);
@@ -149,15 +127,17 @@ public class MatHangActivity extends AppCompatActivity {
         ok = (Button) dialog.findViewById(R.id.OK);
         huy = (Button) dialog.findViewById(R.id.huy);
         title_chucnang.setText(s);
-        MatHang mh = data_MH.get(index);
-        edtMaMH.setText(String.valueOf(mh.getMaHang()));
-        edtTenMH.setText(mh.getTenHang());
-        edtDVT.setText(mh.getDVT());
-        edtDonGia.setText(mh.getDonGia());
+        if(title_chucnang.getText().equals("Sửa")) {
+            MatHang mh = data_MH.get(index);
+            edtMaMH.setText(String.valueOf(mh.getMaHang()));
+            edtTenMH.setText(mh.getTenHang());
+            edtDVT.setText(mh.getDVT());
+            edtDonGia.setText(mh.getDonGia());
+        }
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(edtTenMH.getText().equals("") || edtDVT.getText().equals("") || edtDonGia.getText().equals("")){
+                if(edtTenMH.getText().length() == 0 || edtDVT.getText().length() == 0 || edtDonGia.getText().length() == 0){
                     AlertDialog.Builder alert = new AlertDialog.Builder(MatHangActivity.this);
                     alert.setTitle("Cảnh báo!");
                     alert.setMessage("Bạn chưa nhập đầy đủ thông tin");
@@ -207,8 +187,7 @@ public class MatHangActivity extends AppCompatActivity {
         matHangAdapter.notifyDataSetChanged();
     }
     public void InsertMH() {
-        MatHang matHang = getMatHang();
-        String query = "INSERT INTO MATHANG VALUES(null,'"+ matHang.getTenHang() + "','" + matHang.getDVT() + "','" + matHang.getDonGia() +"')";
+        String query = "INSERT INTO MATHANG VALUES(null,'"+ edtTenMH.getText().toString() + "','" + edtDVT.getText().toString() + "','" + edtDonGia.getText().toString() +"')";
         database.Querydata(query);
         data_MH.clear();
         showData();
@@ -242,9 +221,11 @@ public class MatHangActivity extends AppCompatActivity {
         } else Toast.makeText(this, "Xóa không thành công", Toast.LENGTH_SHORT).show();
     }
     public void fab_hide(){
-        fab.hide();
         btnDeleteMH.hide();
-        btnInsertMH.hide();
         btnUpdateMH.hide();
+    }
+    public void fab_show(){
+        btnDeleteMH.show();
+        btnUpdateMH.show();
     }
 }
