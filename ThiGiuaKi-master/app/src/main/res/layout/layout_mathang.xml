@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MatHangActivity">
+
+
+    <TextView
+        android:id="@+id/title_mh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/setting"
+        android:text="Quản lý mặt hàng"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
+
+    <ListView
+        android:id="@+id/listview_dsmh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_mh">
+
+    </ListView>
+    <include layout="@layout/layout_fab"/>
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TracNghiem</string>
+    <string name="login">Đăng nhập</string>
+    <string name="logout">Thoát</string>
+    <string name="cau1">1/ Con gì bị thương không đau? </string>
+    <string name="cau2">2/ Trong những đáp án sau, động vật nào đẻ trứng? </string>
+    <string name="cau3">3/ Núi nào mà bị chặt ra từng khúc?</string>
+    <string-array name="spinner">
+        <item>ĐÚNG</item>
+        <item>SAI</item>
+    </string-array>
+    <string name="retur">KẾT QUẢ CỦA BẠN</string>
+    <string name="cau4">4/ Chuột nào đi bằng hai chân? </string>
+    <string name="cau5">5/ Con đường nào dài nhất? </string>
+</resources>

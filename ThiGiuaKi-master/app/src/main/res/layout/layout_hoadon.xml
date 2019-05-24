@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MatHangActivity">
+
+    <TextView
+        android:id="@+id/title_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/setting"
+        android:text="Quản lý hóa đơn"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/listview_hd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_hd">
+
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
+
+    <include layout="@layout/layout_fab"/>
+</RelativeLayout>
