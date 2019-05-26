@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">rebo</string>
+    <string name="user">Nguyễn Tấn Phú</string>
+    <string name="sachcuatui">Sách của tui</string>
+    <string name="sachtuithich">Sách tui thích</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="login">Đăng nhập</string>
+    <string name="res">Đăng kí</string>
+    <string name="facebook_app_id">2010308862411424</string>
+    <string name="fb_login_protocol_scheme">fb2010308862411424</string>
+    <string name="title_activity_ani_login">AniLogin</string>
+    <string name="chi_tiet_sach">Thông tin chi tiết</string>
+    <string name="xem_tat_ca">Xem tất cả</string>
+    <string name="label_xem_tat_ca">XEM TẤT CẢ</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="doc_nhieu_nhat">Đọc nhiều nhất</string>
+    <string name="sach_moi_nhat">Sách mới nhất</string>
+    <string name="tai_sach">Tải sách</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="userinfo">Thông tin cá nhân</string>
+</resources>

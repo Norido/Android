@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/card_width"
+    android:layout_height="@dimen/card_height"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+        <ImageView
+            android:id="@+id/item_book"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            android:contentDescription="@string/app_name" />
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_medium"
+            android:textSize="@dimen/text_size"
+            android:gravity="left"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            />
+        <TextView
+            android:id="@+id/item_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_medium"
+            android:textSize="@dimen/text_size"
+            android:gravity="left"
+            android:singleLine="true"/>
+
+    </LinearLayout>

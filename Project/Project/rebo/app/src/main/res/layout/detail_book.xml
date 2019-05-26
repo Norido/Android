@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    tools:context=".ActivityDetail"> <!--IMPORTANT otherwise backgrnd img. will not fill the whole screen -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_material_light">
+
+        <RelativeLayout
+            android:id="@+id/header_book"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/book_header_height"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/read_book_setting">
+
+            <RelativeLayout
+                android:id="@+id/layout_img_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/book_height">
+
+                <ImageView
+                    android:id="@+id/img_detail"
+                    android:layout_width="@dimen/book_width"
+                    android:layout_height="@dimen/book_height"
+                    android:layout_centerHorizontal="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_name_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_img_detail"
+                android:layout_marginRight="@dimen/padding_extra_large"
+                android:layout_marginLeft="@dimen/padding_extra_large">
+
+                <TextView
+                    android:id="@+id/name_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/padding_extra_large"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/author_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_detail"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="@dimen/padding_medium"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_name_detail"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#FAFAFA">
+
+                </RelativeLayout>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="45dp"
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="heart.json"
+                    app:lottie_loop="false" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/transition_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_book"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/layout_noidung_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView
+                    android:id="@+id/expandable_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:maxCollapsedLines="3">
+
+                    <TextView
+                        android:id="@+id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
+
+                    <ImageButton
+                        android:id="@+id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent" />
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/padding_tiny"
+                android:background="@color/view" />
+
+            <LinearLayout
+                android:id="@+id/layout_doc_sach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+
+                >
+
+                <Button
+                    android:id="@+id/tai_sach"
+                    android:layout_width="@dimen/detail_padding"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_large"
+                    android:text="@string/tai_sach"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/textsize_label"
+                    android:background="@drawable/button" />
+                <Button
+                    android:id="@+id/doc_sach"
+                    android:layout_width="@dimen/detail_padding"
+                    android:layout_height="wrap_content"
+                    android:text="Đọc sách"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/textsize_label"
+                    android:background="@drawable/button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/padding_tiny"
+                android:background="@color/view" />
+
+            <LinearLayout
+                android:id="@+id/layout_chi_tiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chi_tiet_sach"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/detail_padding"
+                        android:layout_height="wrap_content"
+                        android:text="Thể loại" />
+
+                    <TextView
+                        android:id="@+id/the_loai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/detail_padding"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày xuất bản" />
+
+                    <TextView
+                        android:id="@+id/ngay_xuat_ban"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/detail_padding"
+                        android:layout_height="wrap_content"
+                        android:text="Nhà xuất bản" />
+
+                    <TextView
+                        android:id="@+id/nha_xuat_ban"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
