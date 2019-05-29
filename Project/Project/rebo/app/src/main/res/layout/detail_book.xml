@@ -11,14 +11,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_material_light">
+        android:background="?attr/backgroundcolor">
 
         <RelativeLayout
             android:id="@+id/header_book"
             android:layout_width="match_parent"
             android:layout_height="@dimen/book_header_height"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/read_book_setting">
+            android:background="@drawable/background_detail">
 
             <RelativeLayout
                 android:id="@+id/layout_img_detail"
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/padding_extra_large"
-                    android:textColor="@android:color/black"
+                    android:textColor="?attr/textcolor"
                     android:textSize="20sp" />
 
                 <TextView
@@ -59,7 +59,8 @@
                     android:layout_below="@+id/name_detail"
                     android:layout_centerHorizontal="true"
                     android:paddingTop="@dimen/padding_medium"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="?attr/textcolor"/>
 
 
             </RelativeLayout>
@@ -74,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#FAFAFA">
+                    android:background="?attr/backgroundcolor">
 
                 </RelativeLayout>
 
@@ -110,27 +111,28 @@
                     android:id="@+id/expandable_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:maxCollapsedLines="3">
+                    app:maxCollapsedLines="3"
+                    >
 
                     <TextView
                         android:id="@+id/expandable_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/textcolor" />
 
                     <ImageButton
                         android:id="@+id/expand_collapse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@android:color/transparent" />
+                        android:background="?attr/backgroundcolor" />
                 </com.ms.square.android.expandabletextview.ExpandableTextView>
 
             </LinearLayout>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/padding_tiny"
-                android:background="@color/view" />
+                android:background="?attr/viewcolor" />
 
             <LinearLayout
                 android:id="@+id/layout_doc_sach"
@@ -142,22 +144,10 @@
                 android:paddingTop="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
-
                 >
-
-                <Button
-                    android:id="@+id/tai_sach"
-                    android:layout_width="@dimen/detail_padding"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/padding_large"
-                    android:text="@string/tai_sach"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/textsize_label"
-                    android:background="@drawable/button" />
                 <Button
                     android:id="@+id/doc_sach"
-                    android:layout_width="@dimen/detail_padding"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đọc sách"
                     android:textAllCaps="false"
@@ -169,7 +159,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/padding_tiny"
-                android:background="@color/view" />
+                android:background="?attr/viewcolor" />
 
             <LinearLayout
                 android:id="@+id/layout_chi_tiet"
@@ -185,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/chi_tiet_sach"
-                    android:textColor="@android:color/black"
+                    android:textColor="?attr/textcolor"
                     android:textSize="20sp" />
 
                 <LinearLayout
@@ -196,13 +186,14 @@
                     <TextView
                         android:layout_width="@dimen/detail_padding"
                         android:layout_height="wrap_content"
-                        android:text="Thể loại" />
+                        android:text="Thể loại"
+                        android:textColor="?attr/textcolor" />
 
                     <TextView
                         android:id="@+id/the_loai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/textcolor"  />
                 </LinearLayout>
 
                 <LinearLayout
@@ -213,13 +204,14 @@
                     <TextView
                         android:layout_width="@dimen/detail_padding"
                         android:layout_height="wrap_content"
-                        android:text="Ngày xuất bản" />
+                        android:text="Ngày xuất bản"
+                        android:textColor="?attr/textcolor" />
 
                     <TextView
                         android:id="@+id/ngay_xuat_ban"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/textcolor" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -230,13 +222,18 @@
                     <TextView
                         android:layout_width="@dimen/detail_padding"
                         android:layout_height="wrap_content"
-                        android:text="Nhà xuất bản" />
+                        android:text="Nhà xuất bản"
+                        android:textColor="?attr/textcolor"  />
+                    />
 
                     <TextView
                         android:id="@+id/nha_xuat_ban"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black" />
+                        android:text="Nhà xuất bản"
+                        android:textColor="?attr/textcolor"  />
+
+                    />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

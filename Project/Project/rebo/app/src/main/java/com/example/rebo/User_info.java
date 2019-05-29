@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import me.anwarshahriar.calligrapher.Calligrapher;
+
 public class User_info extends AppCompatActivity {
     private de.hdodenhof.circleimageview.CircleImageView user_img;
     private EditText email, phone, displayname2;
@@ -31,9 +34,15 @@ public class User_info extends AppCompatActivity {
     public SharedPreferences sharedPrefManager;
     public String uid, emailSave, displayname, avatar, phoneSave;
     public SharedPreferences.Editor editor;
+    private Calligrapher calligrapher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darkTheme);
+        }
+        else setTheme(R.style.AppTheme);
+        calligrapher = new Calligrapher(User_info.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         getSupportActionBar().hide();
@@ -62,6 +71,7 @@ public class User_info extends AppCompatActivity {
         displayname2.setText(displayname);
         email.setText(emailSave);
         phone.setText(phoneSave);
+        calligrapher.setFont(User_info.this,Online.stringfont, true);
         if (!avatar.equals("")){
             Picasso.get().load(avatar).into(user_img);
         }

@@ -6,9 +6,32 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundcolor">#fcfcfc</item>
+        <item name="cardbackground">#ffffff</item>
+        <item name="textcolor">#808080</item>
+        <item name="tintcolor">#000000</item>
+        <item name="buttoncolor">@color/starblue</item>
+        <item name="viewcolor">@color/view</item>
+        <item name="imgbutton">@android:color/transparent</item>
+        <item name="shape">#424242</item>
+    </style>
+    <!--Night mode-->
+    <style name="darkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundcolor">#303030</item>
+        <item name="cardbackground">#424242</item>
+        <item name="textcolor">#ffffff</item>
+        <item name="tintcolor">#ffffff</item>
+        <item name="buttoncolor">@color/starblue</item>
+        <item name="viewcolor">#ffffff</item>
+        <item name="imgbutton">#ffffff</item>
+        <item name="shape">#fcfcfc</item>
     </style>
     
-    <style name="AppTheme.SliderActivity">
+    <style name="AppTheme.SliderActivity" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

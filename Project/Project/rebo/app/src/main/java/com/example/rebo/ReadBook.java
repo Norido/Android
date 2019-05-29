@@ -1,11 +1,13 @@
 package com.example.rebo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import me.anwarshahriar.calligrapher.Calligrapher;
+
 public class ReadBook extends AppCompatActivity implements OnPageChangeListener, OnTapListener {
     private PDFView pdfView;
     private Fab fab;
@@ -51,8 +55,15 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     //Intent
     private String tenSach;
 
+    private Calligrapher calligrapher;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darkTheme);
+        }
+        else setTheme(R.style.AppTheme);
+        calligrapher = new Calligrapher(ReadBook.this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_book);
         getSupportActionBar().hide();
@@ -118,12 +129,12 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     }
 
     public void chapter(){
-
         spiner = (Spinner) findViewById(R.id.chapter_spinner);
         spiner.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,chapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.item_spinner,chapter);
+        adapter.setDropDownViewResource(R.layout.item_spinner);
         spiner.setAdapter(adapter);
+        calligrapher.setFont(ReadBook.this,Online.stringfont, true);
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
@@ -204,16 +215,17 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     }
 
     // Tap listener PDF
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onTap(MotionEvent e){
         check = !check;
-        if(e.getActionMasked() == MotionEvent.ACTION_DOWN && check){
+        if(e.getActionMasked() == MotionEvent.ACTION_DOWN){
             fab.show();
-
+            fab.setVisibility(View.VISIBLE);
         }
-        else if(e.getActionMasked() == MotionEvent.ACTION_DOWN && !check){
+        else if(e.getActionMasked() == MotionEvent.ACTION_UP){
             fab.hide();
-
+            fab.setVisibility(View.INVISIBLE);
         }
 
         return check;
@@ -232,8 +244,16 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
 
         View sheetView = findViewById(R.id.fab_sheet);
         View overlay = findViewById(R.id.overlay);
-        int sheetColor = getResources().getColor(R.color.white);
-        int fabColor = getResources().getColor(R.color.colorPrimary);
+        int sheetColor;
+        int fabColor;
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            sheetColor = getResources().getColor(R.color.sheet_fab_dark);
+            fabColor = getResources().getColor(R.color.sheet_fab_dark);
+        }
+        else{
+            sheetColor = getResources().getColor(R.color.sheet_fab);
+            fabColor = getResources().getColor(R.color.sheet_fab);
+        }
 
         // Create material sheet FAB
         materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);

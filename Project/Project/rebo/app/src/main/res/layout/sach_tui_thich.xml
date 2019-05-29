@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:padding="@dimen/activity_horizontal_margin"
+    android:background="?attr/backgroundcolor">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textsize_label"
-        android:text="@string/label_xem_tat_ca"/>
+        android:text="@string/label_xem_tat_ca"
+        android:textColor="?attr/textcolor"/>
     <GridView
         android:id="@+id/sach_tui_thich"
         android:layout_width="match_parent"

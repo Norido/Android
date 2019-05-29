@@ -1,16 +1,23 @@
 package com.example.rebo;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +34,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.anwarshahriar.calligrapher.Calligrapher;
+
 
 public class ActivityDetail extends AppCompatActivity {
     private ExpandableTextView expandableTextView;
@@ -42,12 +51,24 @@ public class ActivityDetail extends AppCompatActivity {
     public SharedPreferences sharedPrefManager;
     public String uid;
     public List<MyLoveBook> LoveB ;
+
+    //font
+    private Calligrapher calligrapher;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darkTheme);
+        }
+        else setTheme(R.style.AppTheme);
+        calligrapher = new Calligrapher(ActivityDetail.this);
+        calligrapher.setFont(ActivityDetail.this,Online.stringfont, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_book);
         // slide activity
         Slidr.attach(this);
+
+        getSupportActionBar().setTitle("Chi tiết sách");
+
 
         // Nhan du lieu
         //xem them
@@ -65,15 +86,27 @@ public class ActivityDetail extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         book = databaseReference.child("Books");
-        love_book = (DatabaseReference) databaseReference.child("users").child(uid).child("mylovebook").child(tenSach);
-        love_book.addValueEventListener(new ValueEventListener() {
+        love_book = (DatabaseReference) databaseReference.child("users").child(uid);
+        love_book.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()&&dataSnapshot.getValue().equals("1")){
-                        lottieAnimationView.playAnimation();
-                        lottieAnimationView.setRepeatCount(0);
-                    }
+                if(dataSnapshot.hasChild("mylovebook")){
+                    love_book.child("mylovebook").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.hasChild(tenSach)){
+                                lottieAnimationView.setFrame((int) lottieAnimationView.getMaxFrame());
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -91,7 +124,7 @@ public class ActivityDetail extends AppCompatActivity {
                theloai.setText(b.getTheLoai());
                nhaxuatban.setText(b.getNhaXuatBan());
                ngayxuanban.setText(b.getNgayXuatBan());
-
+               calligrapher.setFont(ActivityDetail.this,Online.stringfont, true);
            }
 
            @Override
@@ -120,17 +153,19 @@ public class ActivityDetail extends AppCompatActivity {
         lottieAnimationView.setOnClickListener(new View.OnClickListener(){
                 @Override
             public void onClick(View v) {
+                    love_book = databaseReference.child("users").child(uid).child("mylovebook");
                     if(lottieAnimationView.getFrame() == 0) {
                         lottieAnimationView.playAnimation();
                         lottieAnimationView.setRepeatCount(0);
-                        love_book.setValue("1");
+
+                        love_book.child(tenSach).setValue("true");
 
                     }
                     else{
                         //104 frame
                         lottieAnimationView.pauseAnimation();
                         lottieAnimationView.setFrame(0);
-                        love_book.setValue("0");
+                        love_book.child(tenSach).removeValue();
 
 
                     }
@@ -149,9 +184,6 @@ public class ActivityDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // tai sach
-        tai_sach = (Button) findViewById(R.id.tai_sach);
 
     }
 

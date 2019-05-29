@@ -16,19 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <service
+            android:name=".MusicService"
+            android:enabled="true" />
         <!--<activity android:name=".Online"></activity>-->
         <activity android:name=".User_info" />
         <activity android:name=".Login" />
         <activity android:name=".SignUp" />
         <activity
             android:name=".ActivityDetail"
-            android:label="Chi tiết sách"
             android:theme="@style/AppTheme.SliderActivity" />
         <activity android:name=".ReadBook" />
         <activity android:name=".xem_tat_ca" />
-        <activity
-            android:name=".Sach_cua_tui"
-            android:label="Sách của tui" />
         <activity
             android:name=".Sach_tui_thich"
             android:label="Sách tui thích" /> <!-- <activity android:name=".Online"/> -->

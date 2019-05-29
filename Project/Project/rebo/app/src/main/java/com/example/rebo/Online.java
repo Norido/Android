@@ -1,13 +1,19 @@
 package com.example.rebo;
 
+import android.animation.StateListAnimator;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -15,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,11 +32,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -38,6 +48,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mahfa.dnswitch.DayNightSwitch;
+import com.mahfa.dnswitch.DayNightSwitchAnimListener;
+import com.mahfa.dnswitch.DayNightSwitchListener;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -47,6 +60,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 import static android.os.SystemClock.sleep;
 
@@ -68,7 +83,7 @@ public class Online extends AppCompatActivity {
     private GridView Grid_doc_nhieu_nhat;
     // header
     private static ViewPager mPager;
-    private static int currentPage = 0,currentWord = 0;
+    private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private ArrayList<Book> header = new ArrayList<>();
     private Sliding_Image sliding_image;
@@ -92,8 +107,24 @@ public class Online extends AppCompatActivity {
     public de.hdodenhof.circleimageview.CircleImageView onl_img_avatar;
     MenuItem item1,item2;
 
+    //seting
+    private DayNightSwitch darkmode;
+    private MaterialAnimatedSwitch music;
+    private Spinner font;
+    private TextView txt_dark_mode;
+    private LinearLayout setting;
+    public static String stringfont; // set public
+    public Calligrapher calligrapher;
+    private int index_font = 0;
+    public HomeWatcher mHomeWatcher;
+    public int checkswitch = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darkTheme);
+        }
+        else setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.online);
         // database
@@ -119,8 +150,6 @@ public class Online extends AppCompatActivity {
         // Xem tat ca doc nhieu nhat
         xem_tat_ca_2 = (TextView) findViewById(R.id.tv_seeall2);
         // Sach cua tui
-        layout_sach_cua_tui = (LinearLayout) findViewById(R.id.layout_sach_cua_tui);
-        // Sach cua tui
         layout_sach_tui_thich = (LinearLayout) findViewById(R.id.layout_sach_tui_thich);
         //user info
         layout_user_info = findViewById(R.id.user_information);
@@ -132,6 +161,35 @@ public class Online extends AppCompatActivity {
         editor = sharedPrefManager.edit();
     }
     public void setEvent(){
+
+        //set font
+        calligrapher = new Calligrapher(Online.this);
+        stringfont = "Roboto Black.ttf";
+        calligrapher.setFont(this,stringfont,true);
+        //Music
+            doBindService();
+            Intent music = new Intent();
+            music.setClass(this, MusicService.class);
+            startService(music);
+
+
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
 
         // Drawable Navigation
         getSupportActionBar().setTitle("Online");
@@ -153,24 +211,7 @@ public class Online extends AppCompatActivity {
         if (!avatar.equals("")){
             Picasso.get().load(avatar).into(onl_img_avatar);
         }
-        Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (FirebaseAuth.getInstance().getCurrentUser()==null)
-                {
-                    Intent intent = new Intent(Online.this,Login.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-                else {
-                    Intent intent = new Intent(Online.this, ActivityDetail.class);
-                    Book book = doc_nhieu_nhat.get(position);
-                    intent.putExtra("tenSach", book.getTenSach());
-                    startActivity(intent);
-                }
 
-            }
-        });
         xem_tat_ca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,23 +228,6 @@ public class Online extends AppCompatActivity {
                 Intent intent = new Intent(Online.this, xem_tat_ca.class);
                 intent.putExtra("xem_tat_ca","doc_nhieu_nhat");
                 startActivity(intent);
-            }
-        });
-        layout_sach_cua_tui.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser()==null)
-                {
-                    Intent intent = new Intent(Online.this,Login.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Intent intent = new Intent(Online.this, Sach_cua_tui.class);
-                    startActivity(intent);
-                }
-
             }
         });
 
@@ -266,12 +290,12 @@ public class Online extends AppCompatActivity {
         adv.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final ArrayList<Book> words = new ArrayList<>();
                 NUM_PAGES = (int) dataSnapshot.getChildrenCount();
                 for(DataSnapshot data: dataSnapshot.getChildren()) {
                     header.add(data.getValue(Book.class));
                     sliding_image.notifyDataSetChanged();
                 }
+
                 //lay kich thuoc
                 final float density = getResources().getDisplayMetrics().density;
                 //Set circle indicator radius
@@ -284,6 +308,8 @@ public class Online extends AppCompatActivity {
                             currentPage = 0;
                         }
                         mPager.setCurrentItem(currentPage, true);
+                        noiDung.setText(header.get(currentPage).getNoiDung());
+                        tacGia.setText(header.get(currentPage).getTacGia());
                         currentPage++;
                     }
                 };
@@ -294,49 +320,7 @@ public class Online extends AppCompatActivity {
                         handler.post(Update);
                     }
                 }, 3000, 3000);
-//                animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
-//                animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_out);
-//                animFadeIn.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//                        if (currentWord == NUM_PAGES) {
-//                            currentWord = 0;
-//                        }
-//                        noiDung.setText(header.get(currentWord).getNoiDung());
-//                        tacGia.setText(header.get(currentWord).getTacGia());
-//                        currentWord++;
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        sleep(5000);
-//                        noiDung.startAnimation(animFadeOut);
-//                        tacGia.startAnimation(animFadeOut);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//                    }
-//                });
-//                animFadeOut.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        noiDung.startAnimation(animFadeIn);
-//                        tacGia.startAnimation(animFadeIn);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//
-//                    }
-//                });
-//                noiDung.startAnimation(animFadeIn);
-//                tacGia.startAnimation(animFadeIn);
+
                 // Pager listener over indicator
                 indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -356,15 +340,18 @@ public class Online extends AppCompatActivity {
 
                     }
                 });
+                calligrapher.setFont(Online.this,stringfont,true);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+        indicator.setViewPager(mPager);
 
         book = databaseReference.child("Books");
         recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         ((LinearLayoutManager) layoutManager).setReverseLayout(true);
         ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -376,7 +363,7 @@ public class Online extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 sach_moi_nhat.add(dataSnapshot.getValue(Book.class));
                 recyclerAdapter.notifyDataSetChanged();
-
+                calligrapher.setFont(Online.this,stringfont,true);
             }
 
             @Override
@@ -396,6 +383,25 @@ public class Online extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+        Grid_doc_nhieu_nhat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (FirebaseAuth.getInstance().getCurrentUser()==null)
+                {
+                    Intent intent = new Intent(Online.this,Login.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(Online.this, ActivityDetail.class);
+                    Book book = doc_nhieu_nhat.get(position);
+                    intent.putExtra("tenSach", book.getTenSach());
+                    startActivity(intent);
+                }
 
             }
         });
@@ -406,6 +412,7 @@ public class Online extends AppCompatActivity {
                 doc_nhieu_nhat.add(dataSnapshot.getValue(Book.class));
                 Collections.reverse(doc_nhieu_nhat); // reverse
                 Adapter_doc_nhieu_nhat.notifyDataSetChanged();
+                calligrapher.setFont(Online.this,stringfont,true);
             }
 
             @Override
@@ -425,6 +432,183 @@ public class Online extends AppCompatActivity {
 
             }
         });
+
+
+        // setting
+        setting = (LinearLayout) findViewById(R.id.layout_setting);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog();
+            }
+        });
+        //https://www.youtube.com/watch?v=nwPmuIrrsoA
+    }
+    public void Dialog(){
+        calligrapher.setFont(Online.this,stringfont,true);
+        final Dialog dialog = new Dialog(Online.this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.setting);
+        dialog.setTitle("Setting");
+        darkmode = (DayNightSwitch) dialog.findViewById(R.id.day_night);
+        music = (MaterialAnimatedSwitch) dialog.findViewById(R.id.switch_music);
+        txt_dark_mode = (TextView) dialog.findViewById(R.id.txt_day_night);
+        font = (Spinner) dialog.findViewById(R.id.spinner_font);
+
+        final ArrayList<String> setfont = new ArrayList<>();
+        setfont.add("Roboto Black");
+        setfont.add("Gotham Book");
+        setfont.add("Hero");
+        setfont.add("Montserrat");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.item_spinner,setfont);
+        adapter.setDropDownViewResource(R.layout.item_spinner);
+        font.setAdapter(adapter);
+        font.setSelection(index_font);
+        font.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stringfont = setfont.get(position) + ".ttf";
+                calligrapher.setFont(Online.this,stringfont,true);
+                font.setSelection(position);
+                index_font = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            darkmode.setIsNight(true);
+            txt_dark_mode.setText("Night mode");
+        }
+        else
+            txt_dark_mode.setText("Day mode");
+
+        darkmode.setAnimListener(new DayNightSwitchAnimListener() {
+            @Override
+            public void onAnimStart() {
+
+            }
+
+            @Override
+            public void onAnimEnd() {
+                dialog.dismiss();
+                restartapp();
+            }
+
+            @Override
+            public void onAnimValueChanged(float v) {
+
+            }
+        });
+        darkmode.setListener(new DayNightSwitchListener() {
+            @Override
+            public void onSwitch(boolean isNight) {
+                if(isNight){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
+        music.post(new Runnable() {
+            @Override
+            public void run() {
+                if(checkswitch == 1){
+                    music.toggle();
+                }
+
+            }
+        });
+
+        music.setOnCheckedChangeListener(new MaterialAnimatedSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(boolean b) {
+                if(b){
+                    mServ.pauseMusic();
+                    checkswitch = 1;
+
+                }
+                else {
+                    mServ.resumeMusic();
+                    checkswitch = 0;
+                }
+            }
+        });
+        dialog.show();
+
+    }
+    public void restartapp(){
+        Intent i = new Intent(Online.this,Online.class);
+        startActivity(i);
+        finish();
+    }
+    //config music service
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection(){
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+    public void doBindService(){
+        bindService(new Intent(this,MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    public void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mServ != null) {
+            if(checkswitch == 0){
+                mServ.resumeMusic();
+            }
+
+        }
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        stopService(music);
 
     }
     @Override

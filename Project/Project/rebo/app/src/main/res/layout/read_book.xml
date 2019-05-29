@@ -21,13 +21,13 @@
         android:id="@+id/btn_chapter"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="?attr/buttoncolor"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/padding_extra_large"
         android:layout_marginBottom="@dimen/padding_extra_large"
         android:visibility="invisible"
-        android:src="@drawable/read_book_setting"
+        android:src="@drawable/choose"
         />
         <!-- Overlay that dims the screen -->
         <com.gordonwong.materialsheetfab.DimOverlayFrameLayout
@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/padding_extra_large"
                 android:layout_marginBottom="@dimen/padding_extra_large"
+                app:cardBackgroundColor="?attr/cardbackground"
                 >
 
                 <!-- TODO: Put your sheet items here -->
@@ -65,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="@dimen/padding_medium"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/buttoncolor"
                         android:textSize="@dimen/textsize_label"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
@@ -80,43 +81,14 @@
                     <Spinner
                         android:id="@+id/chapter_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="28dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/padding_medium"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/textsize_label">
+                        android:textSize="@dimen/textsize_label"
+                        android:background="?attr/cardbackground"
+                        android:popupBackground="?attr/cardbackground">
 
                     </Spinner>
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/padding_tiny"
-                        android:background="@color/view" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="@dimen/padding_medium"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/white_mode"
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/padding_medium"
-                            android:background="@drawable/border_black"
-                            android:padding="1dp"
-                            android:src="@android:color/white" />
-
-                        <ImageView
-                            android:id="@+id/black_mode"
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/padding_medium"
-                            android:background="@drawable/border_white"
-                            android:padding="1dp"
-                            android:src="@android:color/black" />
-                    </LinearLayout>
 
                 </LinearLayout>
 

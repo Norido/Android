@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -18,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import me.anwarshahriar.calligrapher.Calligrapher;
+
 
 public class xem_tat_ca extends AppCompatActivity {
     private ArrayList<Book> book = new ArrayList<>();
@@ -25,8 +28,14 @@ public class xem_tat_ca extends AppCompatActivity {
     private Adapter_Book_doc_nhieu_nhat adapter;
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
+    private Calligrapher calligrapher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darkTheme);
+        }
+        else setTheme(R.style.AppTheme);
+        calligrapher = new Calligrapher(xem_tat_ca.this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.xem_tat_ca);
 
@@ -44,10 +53,12 @@ public class xem_tat_ca extends AppCompatActivity {
         if(intent.getStringExtra("xem_tat_ca").equals("sach_moi_nhat")){
             sach_moi_nhat();
             getSupportActionBar().setTitle("Sách mới nhất");
+
         }
         else {
             doc_nhieu_nhat();
             getSupportActionBar().setTitle("Đọc nhiều nhất");
+
         }
         //Event
         xem_tat_ca.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,6 +79,7 @@ public class xem_tat_ca extends AppCompatActivity {
                 book.add(dataSnapshot.getValue(Book.class));
                 Collections.reverse(book); // reverse
                 adapter.notifyDataSetChanged();
+                calligrapher.setFont(xem_tat_ca.this,Online.stringfont, true);
             }
 
             @Override
@@ -98,6 +110,7 @@ public class xem_tat_ca extends AppCompatActivity {
                 book.add(dataSnapshot.getValue(Book.class));
                 Collections.reverse(book); // reverse
                 adapter.notifyDataSetChanged();
+                calligrapher.setFont(xem_tat_ca.this,Online.stringfont, true);
             }
 
             @Override

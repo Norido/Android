@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:gravity="top"
+    android:background="?attr/backgroundcolor">
+
+    <android.support.v7.widget.CardView
+        app:cardBackgroundColor="?attr/cardbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <!-- Day / Night mode -->
+        <LinearLayout
+            android:id="@+id/layout_dark_mode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_item_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <com.mahfa.dnswitch.DayNightSwitch
+                android:id="@+id/day_night"
+                android:layout_width="@dimen/navigation_item_dark_mode_width"
+                android:layout_height="@dimen/navigation_item_dark_mode_height"
+                />
+            <TextView
+                android:id="@+id/txt_day_night"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/textcolor"
+                android:layout_marginStart="@dimen/padding_extra_extra_large"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        app:cardBackgroundColor="?attr/cardbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:id="@+id/layout_music"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_item_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch
+                android:id="@+id/switch_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ball_press_color="@color/md_white_1000"
+                app:ball_release_color="@color/md_deep_orange_500"
+                app:base_press_color="@color/md_deep_orange_50"
+                app:base_release_color="@color/md_deep_orange_900"
+                app:icon_press="@drawable/ic_stop_deep_orange_500_36dp"
+                app:icon_release="@drawable/ic_play_arrow_white_36dp" />
+            <TextView
+                android:id="@+id/music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Music"
+                android:textColor="?attr/textcolor"
+                android:layout_marginStart="35dp"
+                android:textSize="18sp"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        app:cardBackgroundColor="?attr/cardbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:id="@+id/layout_font"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_item_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <Spinner
+                android:id="@+id/spinner_font"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/cardbackground"
+                android:popupBackground="?attr/cardbackground">
+
+            </Spinner>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Font"
+                android:textColor="?attr/textcolor"
+                android:layout_marginStart="@dimen/padding_extra_large"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

@@ -5,8 +5,14 @@
     <color name="colorAccent">#44A1A0</color>
     <color name="view">#E7ECEF</color>
     <color name="white">#FFFFFF</color>
+    <color name="sheet_fab">#fcfcfc</color>
+    <color name="sheet_fab_dark">#303030</color>
     <color name="signupColor">#066e8a</color>
     <color name="starblue">#4bb6ef</color>
+    <color name="md_deep_orange_900">#C93F15</color>
+    <color name="md_deep_orange_50">#FBE9E7</color>
+    <color name="md_deep_orange_500">#FF5722</color>
+    <color name="md_white_1000">#ffffff</color>
     <color name="fbutton_color_turquoise">#1abc9c</color>
     <color name="fbutton_color_green_sea">#16a085</color>
     <color name="fbutton_color_emerald">#2ecc71</color>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/backgroundcolor">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="350dp">
@@ -28,11 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zeross"
-                android:textColor="#fff"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:textSize="21sp"/>
         </LinearLayout>
         <android.support.v7.widget.CardView
+            app:cardBackgroundColor="?attr/cardbackground"
             android:layout_width="250dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
@@ -112,6 +114,7 @@
                 android:drawablePadding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shapeedittext"
+                android:textColor="?attr/textcolor"
                 android:hint="Email"
                 />
         </LinearLayout>
@@ -130,6 +133,7 @@
                 android:drawablePadding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shapeedittext"
+                android:textColor="?attr/textcolor"
                 android:enabled="false"
                 />
         </LinearLayout>
@@ -149,6 +153,7 @@
                 android:drawablePadding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shapeedittext"
+                android:textColor="?attr/textcolor"
                 android:enabled="false"
                 />
         </LinearLayout>

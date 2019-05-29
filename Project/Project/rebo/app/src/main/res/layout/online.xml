@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="?attr/backgroundcolor"
         android:orientation="vertical"
         tools:context=".Online">
 
@@ -65,7 +65,7 @@
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:gravity="center"
                         android:text="Người đàn ông vĩ đại không sinh ra đã tự vĩ đại mà họ trường thành một cách vĩ đại"
-                        android:textColor="@android:color/black"
+                        android:textColor="?attr/textcolor"
                         android:textSize="@dimen/textsize_tittle" />
 
                     <TextView
@@ -76,7 +76,7 @@
                         android:layout_marginBottom="@dimen/activity_horizontal_margin"
                         android:gravity="right"
                         android:text="Sưu tầm"
-
+                        android:textColor="?attr/textcolor"
                         android:textSize="@dimen/textsize_name"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -84,7 +84,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/padding_small"
-                    android:background="@color/view" />
+                    android:background="?attr/viewcolor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,8 +103,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/sach_moi_nhat"
-                            android:textColor="@android:color/black"
+                            android:textColor="?attr/textcolor"
                             android:textSize="@dimen/textsize_label"
+                            android:textStyle="bold"
 
                             />
 
@@ -115,7 +116,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="@string/xem_tat_ca"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/buttoncolor"
                             android:textSize="@dimen/textsize_label" />
                     </RelativeLayout>
 
@@ -129,7 +130,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/padding_small"
-                    android:background="@color/view" />
+                    android:background="?attr/viewcolor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,9 +149,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/doc_nhieu_nhat"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/textsize_label" />
-
+                            android:textColor="?attr/textcolor"
+                            android:textSize="@dimen/textsize_label"
+                            android:textStyle="bold"
+                            />
                         <TextView
                             android:id="@+id/tv_seeall2"
                             android:layout_width="wrap_content"
@@ -158,7 +160,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="@string/xem_tat_ca"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/buttoncolor"
                             android:textSize="@dimen/textsize_label" />
                     </RelativeLayout>
 
@@ -200,7 +202,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="?attr/backgroundcolor"
             android:orientation="vertical">
 
             <!-- Header -->
@@ -228,35 +230,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/activity_vertical_margin"
                     android:paddingLeft="10dp"
-                    android:text="@string/user" />
-
-            </LinearLayout>
-
-            <!-- Item sach cua tui -->
-
-            <LinearLayout
-                android:id="@+id/layout_sach_cua_tui"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/navigation_item_height"
-                android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                android:background="@android:color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:clickable="true">
-
-                <ImageView
-                    android:layout_width="@dimen/navigation_item_icon_size"
-                    android:layout_height="@dimen/navigation_item_icon_size"
-                    android:src="@drawable/my_book" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_extra_extra_large"
-                    android:text="@string/sachcuatui"
-                    android:textSize="15sp" />
+                    android:text="@string/user"
+                    android:textColor="?attr/textcolor"/>
 
             </LinearLayout>
 
@@ -266,7 +241,7 @@
                 android:id="@+id/layout_sach_tui_thich"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
-                android:background="@android:color/white"
+                android:background="?attr/backgroundcolor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -283,46 +258,47 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
                     android:text="@string/sachtuithich"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="?attr/textcolor"/>
 
             </LinearLayout>
-            <!-- Day / Night mode -->
+            <!-- setting -->
 
             <LinearLayout
-                android:id="@+id/layout_dark_mode"
+                android:id="@+id/layout_setting"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
-                android:background="@android:color/white"
+                android:background="?attr/backgroundcolor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:clickable="true">
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
-                <com.mahfa.dnswitch.DayNightSwitch
-                    android:id="@+id/day_night"
-                    android:layout_width="@dimen/navigation_item_dark_mode_width"
-                    android:layout_height="@dimen/navigation_item_dark_mode_height" />
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/settings" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
-                    android:text="@string/dark_mode"
-                    android:textSize="15sp" />
+                    android:text="setting"
+                    android:textSize="15sp"
+                    android:textColor="?attr/textcolor"/>
 
             </LinearLayout>
 
+            <!-- User info -->
             <LinearLayout
                 android:id="@+id/user_information"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
-                android:background="@android:color/white"
+                android:background="?attr/backgroundcolor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:clickable="true">
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
@@ -334,7 +310,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
                     android:text="@string/userinfo"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="?attr/textcolor"/>
 
             </LinearLayout>
 
@@ -342,7 +319,7 @@
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
-                android:background="@android:color/white"
+                android:background="?attr/backgroundcolor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -359,7 +336,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_extra_extra_large"
                     android:text="@string/logout"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="?attr/textcolor"/>
 
             </LinearLayout>
 

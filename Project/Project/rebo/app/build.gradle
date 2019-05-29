@@ -46,6 +46,8 @@ dependencies {
     // sheet fab choose chapter readbook activity
     implementation 'com.github.Mahfa:DayNightSwitch:1.2'// night/day mode
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar' // switch
+    implementation 'me.anwarshahriar:calligrapher:1.0'
 
 }
 

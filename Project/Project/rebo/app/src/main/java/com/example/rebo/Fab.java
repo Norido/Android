@@ -1,5 +1,6 @@
 package com.example.rebo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
@@ -48,7 +49,6 @@ public class Fab extends FloatingActionButton implements AnimatedFab {
             animation.setInterpolator(getInterpolator());
             startAnimation(animation);
         }
-        setVisibility(View.VISIBLE);
     }
 
     /**
@@ -67,7 +67,6 @@ public class Fab extends FloatingActionButton implements AnimatedFab {
             animationD.setInterpolator(getInterpolator());
             startAnimation(animationD);
         }
-       setVisibility(View.INVISIBLE);
     }
     private Interpolator getInterpolator() {
         return AnimationUtils.loadInterpolator(getContext(), R.interpolator.msf_interpolator);
