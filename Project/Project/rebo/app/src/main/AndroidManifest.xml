@@ -20,6 +20,7 @@
             android:name=".MusicService"
             android:enabled="true" />
         <!--<activity android:name=".Online"></activity>-->
+        <activity android:name=".Search_Book"/>
         <activity android:name=".User_info" />
         <activity android:name=".Login" />
         <activity android:name=".SignUp" />

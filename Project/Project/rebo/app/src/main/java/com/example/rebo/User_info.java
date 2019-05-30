@@ -3,15 +3,13 @@ package com.example.rebo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -78,7 +76,7 @@ public class User_info extends AppCompatActivity {
         if (!avatar.equals("")){
             Picasso.get().load(avatar).into(user_img);
         }
-
+        love_book.setText("0");
         databaseReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -86,8 +84,12 @@ public class User_info extends AppCompatActivity {
                     databaseReference.child("users").child(uid).child("mylovebook").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            count = (int) dataSnapshot.getChildrenCount();
-                            love_book.setText(count);
+                            if (dataSnapshot.exists())
+                            {
+                                count = (int) dataSnapshot.getChildrenCount();
+                                love_book.setText(String.valueOf(count));
+                            }
+
                         }
 
                         @Override
