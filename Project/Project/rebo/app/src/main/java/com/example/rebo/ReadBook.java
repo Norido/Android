@@ -1,7 +1,9 @@
 package com.example.rebo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +51,9 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     //firebase
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference pages;
+    public SharedPreferences sharedPrefManager;
+    public String uid;
     private Book b = new Book();
     private int countChapter;
 
@@ -74,6 +79,9 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
         //Nhan du lieu
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Books");
+        pages = firebaseDatabase.getReference("users");
+        sharedPrefManager = getSharedPreferences("UserInformation", Context.MODE_PRIVATE);
+        uid = sharedPrefManager.getString("uid",null);
         Intent intent = getIntent();
         tenSach = intent.getStringExtra("tenSach");
         databaseReference.orderByChild("tenSach").equalTo(tenSach).addChildEventListener(new ChildEventListener() {
@@ -211,6 +219,7 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     public void onPageChanged(int page, int pageCount) {
 //        Toast.makeText(this,"trang" + page,Toast.LENGTH_LONG).show();
 //        System.out.println("trang:" + page);
+        pages.child(uid).child("page").child(tenSach).setValue(page);
 
     }
 

@@ -406,7 +406,7 @@ public class Online extends AppCompatActivity {
             }
         });
         Grid_doc_nhieu_nhat.setAdapter(Adapter_doc_nhieu_nhat);
-        book.orderByChild("soLanDoc").addChildEventListener(new ChildEventListener() {
+        book.orderByChild("soLanDoc").limitToLast(9).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 doc_nhieu_nhat.add(dataSnapshot.getValue(Book.class));

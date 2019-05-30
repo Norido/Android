@@ -179,6 +179,35 @@ public class ActivityDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                book.orderByChild("tenSach").equalTo(tenSach).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Book b = dataSnapshot.getValue(Book.class);
+                        int solandoc = Integer.parseInt(b.getSoLanDoc());
+                        DatabaseReference ref = dataSnapshot.getRef();
+                        ref.child("soLanDoc").setValue(String.valueOf(solandoc + 1));
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 Intent intent = new Intent(ActivityDetail.this, ReadBook.class);
                 intent.putExtra("tenSach",name.getText());
                 startActivity(intent);
