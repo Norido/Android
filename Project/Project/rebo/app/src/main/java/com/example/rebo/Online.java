@@ -604,7 +604,7 @@ public class Online extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        mHomeWatcher.stopWatch();
         doUnbindService();
         Intent music = new Intent();
         music.setClass(this,MusicService.class);

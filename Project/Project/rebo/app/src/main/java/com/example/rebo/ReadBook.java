@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
@@ -46,8 +47,7 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     private Spinner spiner;
     private MaterialSheetFab materialSheetFab;
     private TextView readbook_name;
-    private boolean check = false;
-
+    private boolean check = true;
     //firebase
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
@@ -56,11 +56,14 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     public String uid;
     private Book b = new Book();
     private int countChapter;
+    private int index,index_page;
+    private boolean sync;
 
     //Intent
     private String tenSach;
 
     private Calligrapher calligrapher;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
@@ -77,13 +80,14 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
         readbook_name = (TextView) findViewById(R.id.readbook_name);
 
         //Nhan du lieu
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Books");
-        pages = firebaseDatabase.getReference("users");
         sharedPrefManager = getSharedPreferences("UserInformation", Context.MODE_PRIVATE);
         uid = sharedPrefManager.getString("uid",null);
         Intent intent = getIntent();
         tenSach = intent.getStringExtra("tenSach");
+        index = intent.getIntExtra("chapter",1);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Books");
+        pages = firebaseDatabase.getReference("users").child(uid);
         databaseReference.orderByChild("tenSach").equalTo(tenSach).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -92,7 +96,7 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
                 readbook_name.setText(book.getTenSach());
                 readbook_name.setSelected(true);
                 for(int i = 1; i <= countChapter;i++){
-                    chapter.add("chap"+i);
+                    chapter.add("chapter "+i);
                 }
                 chapter();
             }
@@ -118,20 +122,6 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
             }
         });
 
-
-//        pdfView.fromAsset("dac_nhan_tam.pdf")
-//                .enableSwipe(true) // allows to block changing pages using swipe
-//                .swipeHorizontal(true)
-//                .defaultPage(0)
-//                .onPageChange(this)
-//                .onTap(this)
-//                .scrollHandle(null)
-//                .pageSnap(true) // snap pages to screen boundaries
-//                .pageFling(false) // make a fling change only a single page like ViewPager
-//                .nightMode(false) // toggle night mode
-//                .load();
-
-        //sheet FAB
         setupFab();
 
     }
@@ -142,14 +132,18 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.item_spinner,chapter);
         adapter.setDropDownViewResource(R.layout.item_spinner);
         spiner.setAdapter(adapter);
+        spiner.setSelection(index);
         calligrapher.setFont(ReadBook.this,Online.stringfont, true);
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+
+                index = position; // set postion
+
                     databaseReference.orderByChild("tenSach").equalTo(tenSach).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                            new readBookFromFireBase().execute((String) dataSnapshot.child("link").child(chapter.get(position)).getValue());
+                            new readBookFromFireBase().execute((String) dataSnapshot.child("link").child("chap"+String.valueOf(position+1)).getValue());
                         }
                         @Override
                         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -172,6 +166,7 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
                         }
                     });
                     Toast.makeText(ReadBook.this,"Chúc bạn đọc sách vui vẻ", Toast.LENGTH_LONG).show();
+
                 }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -198,19 +193,42 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
         }
 
         @Override
-        protected void onPostExecute(InputStream inputStream){
-            pdfView.fromStream(inputStream)
-                    .enableSwipe(true) // allows to block changing pages using swipe
-                    .swipeHorizontal(true)
-                    .defaultPage(0)
-                    .onPageChange(ReadBook.this)
-                    .scrollHandle(null)
-                    .pageSnap(true) // snap pages to screen boundaries
-                    .pageFling(false) // make a fling change only a single page like ViewPager
-                    .nightMode(false)
-                    .onTap(ReadBook.this)
-                    // toggle night mode
-                    .load();
+        protected void onPostExecute(final InputStream inputStream){
+            sync = true;
+            pages.child("page").child(tenSach).child(chapter.get(index)).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        index_page = dataSnapshot.getValue(Integer.class);
+                    }
+                    else{
+                        index_page = 0;
+                    }
+                    if(sync){
+                        pdfView.fromStream(inputStream)
+                                .enableSwipe(true) // allows to block changing pages using swipe
+                                .swipeHorizontal(true)
+                                .defaultPage(index_page)
+                                .onPageChange(ReadBook.this)
+                                .scrollHandle(null)
+                                .pageSnap(true) // snap pages to screen boundaries
+                                .pageFling(false) // make a fling change only a single page like ViewPager
+                                .nightMode(false)
+                                .onTap(ReadBook.this)
+                                .load();
+                    }
+
+                    sync = false;
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+
         }
     }
 
@@ -219,22 +237,22 @@ public class ReadBook extends AppCompatActivity implements OnPageChangeListener,
     public void onPageChanged(int page, int pageCount) {
 //        Toast.makeText(this,"trang" + page,Toast.LENGTH_LONG).show();
 //        System.out.println("trang:" + page);
-        pages.child(uid).child("page").child(tenSach).setValue(page);
-
+        pages.child("page").child(tenSach).child(chapter.get(index)).setValue(page);
     }
 
     // Tap listener PDF
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onTap(MotionEvent e){
-        check = !check;
-        if(e.getActionMasked() == MotionEvent.ACTION_DOWN){
+        if(check){
             fab.show();
             fab.setVisibility(View.VISIBLE);
+            check = !check;
         }
-        else if(e.getActionMasked() == MotionEvent.ACTION_UP){
+        else {
             fab.hide();
             fab.setVisibility(View.INVISIBLE);
+            check = !check;
         }
 
         return check;

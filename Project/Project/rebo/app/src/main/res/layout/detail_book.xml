@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/padding_extra_large"
-                    android:textColor="?attr/textcolor"
+                    android:textColor="#808080"
                     android:textSize="20sp" />
 
                 <TextView
@@ -60,7 +60,7 @@
                     android:layout_centerHorizontal="true"
                     android:paddingTop="@dimen/padding_medium"
                     android:textSize="15sp"
-                    android:textColor="?attr/textcolor"/>
+                    android:textColor="#808080"/>
 
 
             </RelativeLayout>
