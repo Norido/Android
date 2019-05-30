@@ -35,6 +35,8 @@ public class User_info extends AppCompatActivity {
     public String uid, emailSave, displayname, avatar, phoneSave;
     public SharedPreferences.Editor editor;
     private Calligrapher calligrapher;
+    private int count;
+    private TextView love_book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class User_info extends AppCompatActivity {
         btnSave = findViewById(R.id.save);
         sharedPrefManager = getSharedPreferences("UserInformation", Context.MODE_PRIVATE);
         editor  = sharedPrefManager.edit();
+        love_book = findViewById(R.id.number_love_book);
 
     }
     public void setEvent(){
@@ -75,6 +78,31 @@ public class User_info extends AppCompatActivity {
         if (!avatar.equals("")){
             Picasso.get().load(avatar).into(user_img);
         }
+
+        databaseReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("mylovebook")){
+                    databaseReference.child("users").child(uid).child("mylovebook").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            count = (int) dataSnapshot.getChildrenCount();
+                            love_book.setText(count);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
